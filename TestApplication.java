@@ -3,7 +3,10 @@ public class TestApplication {
 	Metoder m = new Metoder();
 	Konto konton[] = m.readAccounts();
 
-	for(int i = 0; i < 400; i++)
-	    System.out.println(konton[i].getAccountNumber());
+	for(Konto k : konton)
+	    if(k == null)
+		break;
+	    else
+		System.out.println(m.kontoToString(k));
     }
 }
