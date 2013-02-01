@@ -2,16 +2,19 @@ import java.io.*;
 import java.util.*;
 
 public class Metoder {
-    private String accountFile;
+    private String accountFile, logFile;
     
     public Metoder() {
 	accountFile = "./utf8data/_Konton.txt";
+	logFile = "./utf8data/_GjordaTransaktioner.txt";
     }
 
     public double parseSweDouble(String in) throws NumberFormatException {
 	return Double.parseDouble(in.replace(",", "."));
     }
+    
 
+    
     public Konto[] readAccounts(){
 	Konto konton[] = new Konto[400];
 	Scanner kontofil;
