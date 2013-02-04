@@ -14,7 +14,7 @@ class Transaktion {
     }
 
     public String hejhoj(String askd) {
-	return "NEJ!";
+	return "NEJ!asd";
     }
 
     public void deposit(double dAmount) {
