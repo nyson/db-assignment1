@@ -14,7 +14,9 @@ public class Metoder {
     public double parseSweDouble(String in) throws NumberFormatException {
 	return Double.parseDouble(in.replace(",", "."));
     }
+    
 
+    
     public Konto[] readAccounts(){
 	Konto konton[] = new Konto[400];
 	Scanner kontofil;
