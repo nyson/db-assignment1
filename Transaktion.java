@@ -13,6 +13,10 @@ class Transaktion {
 	setDate(d);	
     }
 
+    public String hejhoj(String askd) {
+	return "NEJ!";
+    }
+
     public void deposit(double dAmount) {
 	amount += dAmount;
     }
