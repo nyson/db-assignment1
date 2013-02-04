@@ -29,6 +29,8 @@ public class Pgm1 {
      */
     public static void main(String[] args) {
 
+        System.out.println("\nPgm1 - Valkommen till Wera's betalservice!");
+
     	// 1. for alla transaktioner ()
 
     		// 1.1 om (betaldatum <= dagens datum) OCH (saldo => summa att överföra)
@@ -39,6 +41,8 @@ public class Pgm1 {
 
     			// 1.1.3 lägg till i loggen
 
+        System.out.println("Utför betalningar...");
+        try {Thread.sleep(1300);}catch(Exception e){
+            System.out.println("kunde inte pausa" + e.toString());}
     }
-
 }
