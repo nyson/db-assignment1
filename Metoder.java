@@ -2,10 +2,13 @@ import java.io.*;
 import java.util.*;
 
 public class Metoder {
-    private String accountFile;
+    private String accountFile, transactionLogFile, surveillanceFile;
     
     public Metoder() {
-	accountFile = "./utf8data/_Konton.txt";
+	String dir = "./utf8data/";
+	accountFile = dir + "_Konton.txt";
+	transactionLogFile = dir + "_GjordaTransaktioner.txt";
+	surveillanceFile = dir + "_Bevakning.txt";	
     }
 
     public double parseSweDouble(String in) throws NumberFormatException {
