@@ -1,7 +1,7 @@
 class Transaktion {
-    private String sourceAccount, destinationAccount, ocrMessage, notering;
-    private double amount; 
-    private Date date; 
+    protected String sourceAccount, destinationAccount, ocrMessage, notering;
+    protected double amount; 
+    protected Date date; 
     
     public Transaction(String sa, String da, String om, 
 		       String n, double a, Date d) {
