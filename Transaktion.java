@@ -1,3 +1,20 @@
+
+
+/* @(#)Transaktioner.java        1.00 2013-01-30
+ *
+ * I denna klass skall informationen från textfilen _Bevakning.txt läggas
+ * under programkörning. Klassen skall innehålla lämpliga get- och 
+ * set-metoder samt nedan variabler.
+ * 
+ * variabler            Lagringsform    Exempel på värden
+ *
+ * sourceAccount        String          8888-8888
+ * destinationAccount   String          5453-7834851
+ * amount               double          500,00
+ * ocrMessage           String          302848274820184
+ * date                 Date            20130228
+ * notering             String          Medlemsavgift
+ */
 class Transaktion {
     protected String sourceAccount, destinationAccount, ocrMessage, notering;
     protected double amount; 
@@ -12,11 +29,6 @@ class Transaktion {
 	setAmount(a);
 	setDate(d);	
     }
-
-    public void deposit(double dAmount) {
-	amount += dAmount;
-    }
-
     public double withdraw(double wAmount){
 	amount -= wAmount;
 	return wAmount;
