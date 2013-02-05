@@ -36,14 +36,14 @@ public class Pgm2 {
      */
     public static void main(String[] args){
 
-        Pgm1.main(null);
-
+        System.out.println("\n*** Wera's betalservice - Pgm2 ***");
+        System.out.println("\n* Detta program gor foljande: *");
 
         String huvudMeny =
         "1. Lista konto        4. Ta ut pengar\n" +
         "2. Skapa nytt konto   5. Registrera ny transaktion\n" +
         "3. Satt in pengar     0. Avsluta\n" +
-        "Huvudmeny:>";
+        "Pgm2:>";
 
         boolean avsluta = false; // Huvudmenyn är igång sålänge 0
         while(!avsluta) {
