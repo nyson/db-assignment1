@@ -1,18 +1,19 @@
 /*
- *  Lägga till konto/betalningsmottagare
- *	När man lägger in ett nytt kontonummer så skall kontroll ske
- *	så att det inte redan finns ett konto med det numret.
- *	Valfritt är att lägga in en funktion som slumpar fram ett kontonummer.
- *	Ett kontonummer får inte bestå av fler än
- *	12 tecken inklusive max/minst ett bindestreck.
- */
+*  Lägga till konto/betalningsmottagare
+*	När man lägger in ett nytt kontonummer så skall kontroll ske
+*	så att det inte redan finns ett konto med det numret.
+
+*	Valfritt är att lägga in en funktion som slumpar fram ett kontonummer.
+*	Ett kontonummer får inte bestå av fler än
+*	12 tecken inklusive max/minst ett bindestreck.
+*/
 
 import java.util.*;
 import java.io.*;
 import java.awt.*;
 
 public class LabbSt {
-    public static void main (String args[]) {
+	public static void main (String args[]) {
 	try {
 	boolean Accval = false;
 	int x = 0;
@@ -52,5 +53,5 @@ public class LabbSt {
 		} catch (Exception e) {
     System.err.println("Caught Exception: " + e.getMessage());
 	}
-    }
+	}
 }
