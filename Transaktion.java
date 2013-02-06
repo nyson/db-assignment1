@@ -27,6 +27,12 @@ class Transaktion {
 	setAmount(a);
 	setDate(d);	
     }
+
+    public double deposit(){
+	amount += wAmount;
+	return amount;
+    }
+
     public double withdraw(double wAmount){
 	amount -= wAmount;
 	return wAmount;

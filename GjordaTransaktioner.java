@@ -1,14 +1,17 @@
 class GjordaTransaktioner extends Transaktion {
-    public void log(Transaktion t) {
-	
-    }   
-
+    
 
     /**
      */
-    private String logFormatDeposit(Transaction t) {
-	return "TransaktionsNotering;transaktionsDatum#"
-	    + "önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg";
+    private String logFormatDeposit(double wAmount) {
+	/*
+	  "TransaktionsNotering;transaktionsDatum#"
+	  + "önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg";
+	*/
+	return getNotering() + ";" + getDate().toString() + "#"
+	    + new Date().toString() + ";" 
+	    + wAmount + ";" + getDestinationAccount() + ";"
+	    + getAmount() + ";" + getOcrMessage(); 
     }
 
     /**
