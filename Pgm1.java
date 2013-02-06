@@ -47,4 +47,5 @@ public class Pgm1 {
         try {Thread.sleep(1300);}catch(Exception e){
             System.out.println("kunde inte pausa" + e.toString());}
     }
+
 }
