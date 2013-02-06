@@ -1,9 +1,9 @@
 /* @(#)Transaktion.java        1.00 2013-01-30
- *
+ * 
  * I denna klass skall informationen från textfilen _Bevakning.txt läggas
  * under programkörning. Klassen skall innehålla lämpliga get- och 
  * set-metoder samt nedan variabler.
- * 
+ *
  * variabler            Lagringsform    Exempel på värden
  *
  * sourceAccount        String          8888-8888
