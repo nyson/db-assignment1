@@ -5,11 +5,10 @@ Lägga in överföringar och räkningar. Se klasserna Transaktion för informati
 import java.util.*;
 import java.io.*;
 
-public class fort {
+public class Transfer {
 	public static void main (String args[]) {
 	boolean Accval = false;
-	double Value = 0;
-	double NValMon = 0;
+	double Value = 0,NValMon = 0;
 	BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream
 												(new FileInputStream("Konton.txt"))));
 	String strLine;
@@ -147,19 +146,17 @@ boolean val = false;
 while (val) {
 	System.out.println("Skriv in OCR nummret");
 	String OCR = ScKb.nextLine();
-	
-	
-try {
+	try {
 		int OCRnum = Integer.parseInt(OCR);
 		System.out.println("Bara siffror angavs är detta ett ocr?"); //behöver en meny här
 		if yes
 		else
 		
-} catch (Exception e) {
+	} catch (Exception e) {
 		System.out.println("Detta är formaterat som ett medelande?");
 		if (ok){
 		OCR
-		}
-		else {}
+		} else {
 		}
 	}
+}
