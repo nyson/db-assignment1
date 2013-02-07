@@ -127,7 +127,7 @@ if (String(OCR).equals(inOCR)) {
 	Date today = new Date();
 	System.out.println(dateForm.format(today));
 	while (Message.length() <= 0)||(Message.length() > 15) {
-		System.out.println("Ange ett medelande);
+		System.out.println("Ange ett medelande");
 		String input = ScKb.nextLine();
 		if (Message.length() <= 0) {
 			System.out.println( Message is to short!);
