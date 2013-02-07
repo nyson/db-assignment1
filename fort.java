@@ -97,7 +97,7 @@ for (int xix = 0; xix <= Langd1; xix++) {
 	*/
 }
 while (xiz < NewOCR1.size()) {
-	if (NewOCR1[xiz] => 10) {
+	if (NewOCR1[xiz] > 9) {
 	NewChar1 = NewOCR1[xiz] - 9;
 	set.NewOCR1[xiz, NewChar1];
 	} else {
