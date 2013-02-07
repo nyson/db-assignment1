@@ -3,7 +3,7 @@ import java.io.*;
 import java.awt.*;
 
 public class Pgm2 {
-  
+	
 	/*
 *	Lägga till konto/betalningsmottagare
 *	När man lägger in ett nytt kontonummer så skall kontroll ske
@@ -15,7 +15,7 @@ public class Pgm2 {
 */
 	
 	private static void KontoNum() {
-	boolean AccVal = false;
+	boolean accVal = false;
 	int x = 0,y = 0;
 	BufferedReader br = new BufferedReader(new InputStreamReader(new DataInputStream
 												(new FileInputStream("Konton.txt"))));
@@ -23,10 +23,10 @@ public class Pgm2 {
 	String[] temp = new String[20];
 	String[] temp1 = new String[20];
 	try {
-		while (!AccVal) {
-			Random Numb = new Random();
-			x = Numb.nextInt(10000);
-			y = Numb.nextInt(10000000);
+		while (!accVal) {
+			Random numb1 = new Random();
+			x = numb1.nextInt(10000);
+			y = numb1.nextInt(10000000);
 			while ((strLine = br.readLine()) != null)   {
 				if (strLine.length() > 0) {
 					temp = strLine.split("##");
@@ -34,17 +34,13 @@ public class Pgm2 {
 					int a = Integer.parseInt(temp1[0]);
 					int b = Integer.parseInt(temp1[1]);
 					if ((x != a)&&(y != b )) {
-						AccVal = true;
-					} else {
-						continue;
+						accVal = true;
 					}
-				} else {
-					continue;
 				}
 			}
 		}
-	String Accnum = (Integer.toString(x) + "-" + Integer.toString(y));
-	System.out.println("Your new Account Number is: " + Accnum);
+	String accnum = (Integer.toString(x) + "-" + Integer.toString(y));
+	System.out.println("Your new Account Number is: " + accnum);
 		} catch (Exception e) {
     System.err.println("Caught Exception: " + e.getMessage());
 	}
@@ -142,6 +138,8 @@ Ta ut pengar från konto.
 					temp1 = temp[0].split("-");
 					int a = Integer.parseInt(temp1[0]);
 					int b = Integer.parseInt(temp1[1]);
+					
+					// Kolla att knr finns
 					if ((FiAcNu == a )&&(SeAcNu == b )) {
 						Accval = true;
 						System.out.println(strLine);
@@ -175,4 +173,6 @@ Ta ut pengar från konto.
 		System.err.println("Caught Exception: " + e.getMessage());
 		}
 	}
+	
+	
 }
