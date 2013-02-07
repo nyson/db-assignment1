@@ -15,7 +15,39 @@ public class Metoder {
 	return Double.parseDouble(in.replace(",", "."));
     }
     
+    public ArrayList<Transaktion> readTransactions(){
+	Scanner tFile;
+	String[] t;
+	ArrayList tList = new ArrayList<Transaktion>;
 
+	try {
+	    tFile = new Scanner(new File(surveillanceFile));
+	    System.out.println("Loading surveillance...");
+	} catch (FileNotFoundException e) {
+	    System.out.println("Couldn't find file at '"+surveillanceFile+"'!");
+	    return null;
+	}
+	
+	while(tFile.hasNextLine()) {
+	    /* t string format:
+	     * 0 datum
+	     * 1 #källKontonummer
+	     * 2 #destinationsKontonummer
+	     * 3 #belopp
+	     * 4 #ocrMeddelande
+	     * 5 #betalningsNotering
+	     */
+	    t = tFile.nextLine().split("#");
+	    if(t.lenght = 5)
+		tList.add(new Transaktion(t[0], t[1], t[2], t[3], t[4]));
+	    else
+		tList.add(new Transaktion(t[0], t[1], t[2], t[3], t[4], t[5]));
+	}
+
+	for(Transaktion t : tFile) {
+	    System.out.println(t);
+	}
+    }
     
     public Konto[] readAccounts(){
 	Konto konton[] = new Konto[400];
@@ -30,7 +62,7 @@ public class Metoder {
 	    return null;
 	} 
 
-	
+ 	
 	for(int i = 0; kontofil.hasNextLine(); i++){
 	    kontotemp = kontofil.nextLine().split("##");
 	    konton[i] = new Konto(kontotemp[0], 
@@ -55,3 +87,9 @@ java.lang.String 	getOwnerName()
     
 
 }
+
+
+
+int x = 24; 
+
+x = 10 - (x % 10) + x;

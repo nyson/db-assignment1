@@ -17,20 +17,38 @@ class Transaktion {
     protected String sourceAccount, destinationAccount, ocrMessage, notering;
     protected double amount; 
     protected Date date; 
+
     
-    public Transaction(String sa, String da, String om, 
-		       String n, double a, Date d) {
+    public Transaction(Date d, String sa, String da, double a, String om) {
 	setSourceAccount(sa);
 	setDestinationAccount(da);
 	setOcrMessage(om);
-	setNotering(n);
 	setAmount(a);
 	setDate(d);	
     }
 
-    public double deposit(){
-	amount += wAmount;
-	return amount;
+    public Transaction(Date d, String sa, String da, 
+		       double a, String om, String n) {
+	setSourceAccount(sa);
+	setDestinationAccount(da);
+	setOcrMessage(om);
+	setAmount(a);
+	setDate(d);	
+	setNotering(n);
+    }
+
+    public String toString(){
+	return "Transaction\n\t"
+	    + getDate() + "\n\t"
+	    + getSourceAccount() + "\n\t"
+	    + getDestinationAccount() + "\n\t"
+	    + getAmount() + "\n\t"
+	    + getOcrMessage() + "\n\t"
+	    + getNotifiering() + "\n\n";
+    }
+
+    public double deposit(Konto account, double amount){
+	account.deposit(amount);
     }
 
     public double withdraw(double wAmount){
