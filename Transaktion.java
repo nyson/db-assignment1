@@ -13,13 +13,15 @@
  * date                 Date            20130228
  * notering             String          Medlemsavgift
  */
+
+import java.util.*;
 class Transaktion {
     protected String sourceAccount, destinationAccount, ocrMessage, notering;
     protected double amount; 
     protected Date date; 
 
     
-    public Transaction(Date d, String sa, String da, double a, String om) {
+    public Transaktion(Date d, String sa, String da, double a, String om) {
 	setSourceAccount(sa);
 	setDestinationAccount(da);
 	setOcrMessage(om);
@@ -27,7 +29,7 @@ class Transaktion {
 	setDate(d);	
     }
 
-    public Transaction(Date d, String sa, String da, 
+    public Transaktion(Date d, String sa, String da, 
 		       double a, String om, String n) {
 	setSourceAccount(sa);
 	setDestinationAccount(da);
@@ -44,11 +46,12 @@ class Transaktion {
 	    + getDestinationAccount() + "\n\t"
 	    + getAmount() + "\n\t"
 	    + getOcrMessage() + "\n\t"
-	    + getNotifiering() + "\n\n";
+	    + getNotering() + "\n\n";
     }
 
     public double deposit(Konto account, double amount){
-	account.deposit(amount);
+	account.depositAmount(amount);
+	return 0;
     }
 
     public double withdraw(double wAmount){
@@ -56,8 +59,9 @@ class Transaktion {
 	return wAmount;
     }
     
-    public static void traverseMonitoredAccounts(){}
-
+    public static void traverseMonitoredAccounts() throws Exception {
+	throw new Exception("not implemented");
+    }
 
     public String getSourceAccount(){return sourceAccount; }
     public String getDestinationAccount(){return destinationAccount; }
@@ -65,7 +69,7 @@ class Transaktion {
     public String getNotering(){return notering; }
     public double getAmount(){return amount; }
     public Date getDate(){return date; }
-
+    
     public void setSourceAccount(String sa){sourceAccount = sa; }
     public void setDestinationAccount(String da){destinationAccount = da; }
     public void setOcrMessage(String om){ocrMessage = om; }

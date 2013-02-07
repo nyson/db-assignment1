@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 public class Metoder {
     private String accountFile, transactionLogFile, surveillanceFile;
@@ -18,37 +19,46 @@ public class Metoder {
     public ArrayList<Transaktion> readTransactions(){
 	Scanner tFile;
 	String[] t;
-	ArrayList tList = new ArrayList<Transaktion>;
-
+	SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+	Date transDate;
+	ArrayList<Transaktion> tList = new ArrayList<Transaktion>();
+	
 	try {
 	    tFile = new Scanner(new File(surveillanceFile));
 	    System.out.println("Loading surveillance...");
 	} catch (FileNotFoundException e) {
 	    System.out.println("Couldn't find file at '"+surveillanceFile+"'!");
-	    return null;
 	}
 	
 	while(tFile.hasNextLine()) {
-	    /* t string format:
-	     * 0 datum
-	     * 1 #källKontonummer
-	     * 2 #destinationsKontonummer
-	     * 3 #belopp
-	     * 4 #ocrMeddelande
-	     * 5 #betalningsNotering
-	     */
 	    t = tFile.nextLine().split("#");
-	    if(t.lenght = 5)
-		tList.add(new Transaktion(t[0], t[1], t[2], t[3], t[4]));
-	    else
-		tList.add(new Transaktion(t[0], t[1], t[2], t[3], t[4], t[5]));
+	    try {
+		if(t.length == 5) {
+		    tList.add(new Transaktion(dFormat.parse(t[0]), 
+					      t[1], t[2], 
+					      parseSweDouble(t[3]), t[4]));
+		}
+		else {
+		    tList.add(new Transaktion(dFormat.parse(t[0]), 
+					      t[1], t[2], 
+					      parseSweDouble(t[3]), t[4], 
+					      t[5]));
+		}
+	    } catch (ParseException e) {
+		System.out.println("Not a valid date, ignoring...");
+		return null;
+	    }
+
 	}
 
-	for(Transaktion t : tFile) {
-	    System.out.println(t);
-	}
+	return tList;
     }
-    
+
+
+    /**
+     * Reads all accounts to a Konto array
+     * 
+     */
     public Konto[] readAccounts(){
 	Konto konton[] = new Konto[400];
 	Scanner kontofil;
@@ -74,11 +84,11 @@ public class Metoder {
 	return konton;
     }
     /*
-java.lang.String 	getAccountName() 
-java.lang.String 	getAccountNumber() 
-double 	getAvailableAmount() 
-java.lang.String 	getOwnerName() 
-     */
+      java.lang.String 	getAccountName() 
+      java.lang.String 	getAccountNumber() 
+      double 	getAvailableAmount() 
+      java.lang.String 	getOwnerName() 
+    */
 
     public String kontoToString(Konto k) {
 	return k.getAccountName() + ", " + k.getAccountNumber()
@@ -87,9 +97,3 @@ java.lang.String 	getOwnerName()
     
 
 }
-
-
-
-int x = 24; 
-
-x = 10 - (x % 10) + x;
