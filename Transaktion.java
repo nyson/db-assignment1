@@ -35,7 +35,7 @@ public class Transaktion {
 	setAmount(amount);
 	setDate(dueDate);	
 
-        // öaskflkpela,sld,mlkdwpkdsö
+        // öaskflkpela,sld,mlkdwpkdsödgkladg
     }
 
     /**
