@@ -11,6 +11,8 @@ public class Transaktion {
     protected String ocrMessage; 
     protected String notering;
 
+
+
     protected double amount; 
 
     protected Date dueDate; 
@@ -32,6 +34,8 @@ public class Transaktion {
 	setOcrMessage(ocrMessage);
 	setAmount(amount);
 	setDate(dueDate);	
+
+        // öaskflkpela,sld,mlkdwpkdsö
     }
 
     /**
