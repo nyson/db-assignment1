@@ -42,7 +42,7 @@ public class Metoder {
 				}
 			} catch (ParseException e) {
 				System.out.println("Not a valid date, ignoring...");
-				return null;
+				continue;
 			}
 
 		}
@@ -78,6 +78,7 @@ public class Metoder {
 					kontotemp[3]);
 		}
 
+		kontofil.close();
 		return konton;
 	}
 	/*

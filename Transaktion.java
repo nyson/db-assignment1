@@ -1,6 +1,4 @@
 import java.util.*;
-
-
 /**
  * 
  * @author Jonathan Skårstedt jonathan.skarstedt@gmail.com
@@ -31,7 +29,7 @@ public class Transaktion {
 		setDestinationAccount(destinationAccount);
 		setOcrMessage(ocrMessage);
 		setAmount(amount);
-		setDate(dueDate);	
+		setDueDate(dueDate);	
 
 		// öaskflkpela,sld,mlkdwpkdsödgkladg
 	}
@@ -51,13 +49,13 @@ public class Transaktion {
 		setDestinationAccount(da);
 		setOcrMessage(om);
 		setAmount(a);
-		setDate(d);	
+		setDueDate(d);	
 		setNotice(n);
 	}
 
 	public String toString(){
 		return "Transaction\n\t"
-				+ getDate() + "\n\t"
+				+ getDueDate() + "\n\t"
 				+ getSourceAccount() + "\n\t"
 				+ getDestinationAccount() + "\n\t"
 				+ getAmount() + "\n\t"
