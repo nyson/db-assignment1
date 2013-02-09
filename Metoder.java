@@ -3,7 +3,9 @@ import java.util.*;
 import java.text.*;
 
 public class Metoder {
-	private String accountFile, transactionLogFile, surveillanceFile;
+	private String accountFile;
+	private String transactionLogFile;
+	private String surveillanceFile;
 
 	public Metoder() {
 		String dir = "./utf8data/";
@@ -12,10 +14,69 @@ public class Metoder {
 		surveillanceFile = dir + "_Bevakning.txt";	
 	}
 
+	/**
+	 * Validate an OCR number according to the Luhn algorithm
+	 * http://en.wikipedia.org/wiki/Luhn_algorithm
+	 *  
+	 * @param ocrNumber OCR number to validate
+	 * @return true on valid OCR numbeqr 
+	 */
+	public boolean validOcr(String ocrNumber) {
+		int checksum = 0;
+		boolean alt = false;
+		
+		for (int i = ocrNumber.length() - 1; i >= 0; i--){
+			int n = Integer.parseInt(ocrNumber.substring(i, i + 1));
+			if(alt) {
+				n *= 2;
+				if(n > 10)
+					n++;
+			}
+
+			checksum += n;
+			alt = !alt;
+		}
+		return (checksum % 10 == 0);
+	}
+
+	/**
+	 * Translates a swedish double precision string representation of a digit 
+	 * to a double. String must be in "x,y" form.
+	 * @param in Swedish String double to convert to double
+	 * @return The String transformed to a double 
+	 * @throws NumberFormatException on not being in "x,y" form
+	 */
 	public double parseSweDouble(String in) throws NumberFormatException {
 		return Double.parseDouble(in.replace(",", "."));
 	}
 
+	/**
+	 * Traverses the transaction log file and populates an ArrayList of 
+	 * GjordaTransaktioner:s. 
+	 * @return an ArrayList representation of the log file
+	 * @throws FileNotFoundException
+	 */
+	public ArrayList<GjordaTransaktioner> readMadeTransactions() 
+			throws FileNotFoundException {
+		ArrayList<GjordaTransaktioner> et;
+		Scanner etFile;
+		String[] etTemp;
+
+		etFile = new Scanner(new File(transactionLogFile));
+		while(etFile.hasNextLine()) {
+			etTemp = etFile.nextLine().split(";|#");
+		}
+		et = new ArrayList<GjordaTransaktioner>();
+
+		etFile.close();		
+		return et;			
+	}
+
+	/**
+	 * Read the surveillance and populate an ArrayList with the data
+	 * @return 
+	 * @throws FileNotFoundException
+	 */
 	public ArrayList<Transaktion> readTransactions() throws FileNotFoundException{
 		Scanner tFile;
 		String[] t;
