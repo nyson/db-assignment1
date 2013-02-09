@@ -74,7 +74,7 @@ public class Metoder {
 
 	/**
 	 * Read the surveillance and populate an ArrayList with the data
-	 * @return 
+	 * @return An ArrayList of the given data
 	 * @throws FileNotFoundException
 	 */
 	public ArrayList<Transaktion> readTransactions() throws FileNotFoundException{
@@ -113,23 +113,13 @@ public class Metoder {
 	}
 
 
-	/**
-	 * Reads all accounts to a Konto array
-	 * 
-	 */
-	public Konto[] readAccounts(){
+	public Konto[] readAccounts() throws FileNotFoundException{
 		Konto konton[] = new Konto[400];
 		Scanner kontofil;
 		String[] kontotemp;
 
-		try {
-			kontofil = new Scanner(new File(accountFile));
-			System.out.println("Loading accounts from '"+accountFile+"'...");
-		} catch (FileNotFoundException e) {
-			System.out.println("Couldn't find file!");
-			return null;
-		} 
-
+		kontofil = new Scanner(new File(accountFile));
+		System.out.println("Loading accounts from '"+accountFile+"'...");
 
 		for(int i = 0; kontofil.hasNextLine(); i++){
 			kontotemp = kontofil.nextLine().split("##");
