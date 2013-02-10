@@ -1,5 +1,9 @@
+package weraFinal;
+import Konto;
+
 import java.util.*;
 import java.io.*;
+
 
 public class TestApplication {
 	private static Metoder m;

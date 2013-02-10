@@ -1,3 +1,5 @@
+package weraFinal;
+
 import java.util.*;
 
 class GjordaTransaktioner extends Transaktion {

@@ -1,3 +1,4 @@
+package weraFinal;
 /*
  * @(#)Pgm1.java        1.0 2013-01-30
  *
@@ -8,6 +9,7 @@
  * transaktionsloggen.
  *
  */
+
 
 import java.io.*;
 import java.util.*;

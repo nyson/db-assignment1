@@ -1,6 +1,11 @@
+package weraFinal;
+
+import Konto;
+
 import java.io.*;
 import java.util.*;
 import java.text.*;
+
 /**
  * 
  * @author Jonathan Skårstedt
@@ -28,25 +33,6 @@ public class Metoder {
 		
 	}
 
-	/**
-	 * Deposits money into an account
-	 * @param account the account to insert money into
-	 * @param amount the amount of money to deposit
-	 */
-	public void deposit(Konto account, double amount){
-		account.depositAmount(amount);
-	}
-
-	/**
-	 * Withdraws money from an account
-	 * @param account the account to withdraw from
-	 * @param amount the amount of money to withdraw
-	 */
-	public void withdraw(Konto account, double amount){
-		account.withdraw(amount);		
-	}
-
-	
 	/**
 	 * Validate an OCR number according to the Luhn algorithm
 	 * http://en.wikipedia.org/wiki/Luhn_algorithm
@@ -191,8 +177,7 @@ public class Metoder {
 	 * @param d The date where after to remove a certain transaction
 	 * @throws FileNotFoundException
 	 */
-	public void executeTransactionsAfter(Date d){
-		
+	public void executeAllTransactionsAfter(Date d){		
 		for(Iterator<Transaktion> it = transactions.iterator(); it.hasNext();) {
 			Transaktion t = it.next();
 			if(t.dueDate.after(d)) {
@@ -202,7 +187,7 @@ public class Metoder {
 		}
 	}
 	
-	/**
+/**
 	 * Save current changes to given files.  
 	 * @throws IOException
 	 */

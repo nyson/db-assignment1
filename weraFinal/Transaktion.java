@@ -1,3 +1,5 @@
+package weraFinal;
+
 import java.util.*;
 /**
  * 
@@ -67,7 +69,29 @@ public class Transaktion {
 				+ getNotice() + "\n\n";
 	}
 
+	/**
+	 * Deposits money into an account
+	 * @param account the account to insert money into
+	 * @param amount the amount of money to deposit
+	 */
+	public void deposit(Konto account, double amount){
+		account.depositAmount(amount);
+		
+	}
 
+	/**
+	 * Withdraws money from an account
+	 * @param account the account to withdraw from
+	 * @param amount the amount of money to withdraw
+	 */
+	public void withdraw(Konto account, double amount){
+		account.withdraw(amount);		
+	}
+
+	
+
+	
+	
     private String logFormatDeposit(double wAmount) {
 	/*
 	  "TransaktionsNotering;transaktionsDatum#"
