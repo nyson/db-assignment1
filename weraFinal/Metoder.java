@@ -1,11 +1,6 @@
-package weraFinal;
-
-import Konto;
-
-import java.io.*;
 import java.util.*;
+import java.io.*;
 import java.text.*;
-
 /**
  * 
  * @author Jonathan Skårstedt
@@ -26,10 +21,14 @@ public class Metoder {
 		accountFile = accountPath;
 		transactionLogFile = logPath;
 		surveillanceFile = surveillancePath;
-		
-		readAccounts();
+
+		System.out.println("files:\n\t" + accountFile
+					+ "\n\t" + transactionLogFile
+					+ "\n\t" + surveillanceFile);
+
+		/* readAccounts();
 		readTransactions();
-		readTransactionLog();
+		readTransactionLog(); */
 		
 	}
 

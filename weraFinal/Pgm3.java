@@ -1,5 +1,3 @@
-public package  weraFinal; 
-
 import java.util.*;
 import java.io.*;
 

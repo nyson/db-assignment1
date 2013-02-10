@@ -1,4 +1,3 @@
-package weraFinal;
 /*
  * @(#)Pgm1.java        1.0 2013-01-30
  *
@@ -38,8 +37,15 @@ public class Pgm1 {
         }
         
         Date lastWeek = new Date(); 
-        m.executeTransactionsAfter(lastWeek);
-        m.saveChanges();
+        m.executeAllTransactionsAfter(lastWeek);
+        
+        try {
+        	m.saveChanges();
+        } catch (IOException e) {
+        	System.out.println("Kunde inte spara ändringar: " + e.getMessage());
+        }
+       
+        
     }
     
     /**

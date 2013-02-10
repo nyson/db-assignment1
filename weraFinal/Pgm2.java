@@ -1,4 +1,3 @@
-package weraFinal;
 /*
  * @(#)Pgm2.java        1.0 2013-01-30
  *
