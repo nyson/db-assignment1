@@ -2,10 +2,17 @@ import java.util.*;
 import java.io.*;
 
 public class TestApplication {
+	private static Metoder m;
 	public static void main(String[] args) {
-		Metoder m = new Metoder();
-
-		Konto konton[] = m.readAccounts();
+		m = new Metoder();
+		Konto konton[];
+		
+		try {
+			konton = m.readAccounts();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 
 		for(Konto k : konton)
 			if(k == null)
@@ -24,4 +31,5 @@ public class TestApplication {
 			System.out.println(e);
 		}
 	}
+	
 }

@@ -1,7 +1,8 @@
 import java.util.*;
 /**
  * 
- * @author Jonathan Skårstedt jonathan.skarstedt@gmail.com
+ * @author Jonathan Skårstedt
+ * 
  */
 public class Transaktion {
 	protected String sourceAccount;
@@ -30,8 +31,7 @@ public class Transaktion {
 		setOcrMessage(ocrMessage);
 		setAmount(amount);
 		setDueDate(dueDate);	
-
-		// öaskflkpela,sld,mlkdwpkdsödgkladg
+		setNotice("");
 	}
 
 	/**
@@ -53,6 +53,10 @@ public class Transaktion {
 		setNotice(n);
 	}
 
+	/**
+	 * Returns a Transaktion object as a String representation
+	 * @return A formatted string of the transaction
+	 */
 	public String toString(){
 		return "Transaction\n\t"
 				+ getDueDate() + "\n\t"
@@ -63,16 +67,43 @@ public class Transaktion {
 				+ getNotice() + "\n\n";
 	}
 
-	public double deposit(Konto account, double amount){
-		account.depositAmount(amount);
-		return 0;
-	}
 
-	public double withdraw(double wAmount){
-		amount -= wAmount;
-		return wAmount;
-	}
+    private String logFormatDeposit(double wAmount) {
+	/*
+	  "TransaktionsNotering;transaktionsDatum#"
+	  + "önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg";
+	*/
+	return getNotice() + ";" + getDueDate().toString() + "#"
+	    + new Date().toString() + ";" 
+	    + wAmount + ";" + getDestinationAccount() + ";"
+	    + getAmount() + ";" + getOcrMessage(); 
+    }
 
+    /**
+     */
+    private String logFormatWithdrawal(double amount) {
+	/*return "TransaktionsNotering;transaktionsDatum#"
+	    + "önskatDatum;KONTANTER;belopp;ocrMeddelande";
+	    */
+    	return getNotice() + ";" + getDueDate().toString() + "#"
+    		+ new Date().toString() + ";" + amount + ";" 
+    		+ getDestinationAccount() + ";" + getAmount() + ";" 
+    		+ getOcrMessage();
+    	
+    }
+
+    
+    public boolean execute(){
+    	return true;
+    }
+    /**
+     */
+    private String logFormatTransaction(Transaktion t) {
+	return "TransaktionsNotering;transaktionsDatum#önskatDatum;"
+	    +"källKontonummer;destinationsKonto;belopp;"
+	    +"ocrMeddelande;betalningsNotering";
+    }
+	
 	public static void traverseMonitoredAccounts() throws Exception {
 		throw new Exception("not implemented");
 	}

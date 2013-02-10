@@ -27,25 +27,15 @@ public class Pgm1 {
     /**        
      * main  ...
      */
+    
     public static void main(String[] args) {
 
         System.out.println("\n*** Wera's betalservice - Pgm1 ***");
-        System.out.println("\n* Detta program utfor alla annu ej utforda transaktioner *");
-
-    	// 1. for alla transaktioner ()
-
-    		// 1.1 om (betaldatum <= dagens datum)
-            // OCH (saldo => summa att överföra)
-
-    			// 1.1.1 utför transaktion()
-    			
-    			// 1.1.2 ta bort från bevakning
-
-    			// 1.1.3 lägg till i loggen
-
-            System.out.println("Utför utgångna transaktion mindre an en vecka gamla...");
-        try {Thread.sleep(1300);}catch(Exception e){
-            System.out.println("kunde inte pausa" + e.toString());}
+        System.out.println
+        	("\n* Detta program utfor alla annu ej utforda transaktioner *");
+        System.out.println
+        	("Utför utgångna transaktion mindre an en vecka gamla...");
+        
     }
-
+   
 }
