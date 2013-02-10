@@ -149,7 +149,7 @@ public class Metoder {
 	}
 
 
-	/**ls
+	/**
 	 * 
 	 * Reads an account file and parses the data to an Array. 
 	 * @return accounts in the datafile 
@@ -180,7 +180,7 @@ public class Metoder {
 	 * @param k Konto to format
 	 * @return 
 	 */
-	public String kontoToString(Konto k) {
+	public String accountToString(Konto k) {
 		return k.getAccountName() + ", " + k.getAccountNumber()
 				+ ", " + k.getAvailableAmount() + ", " + k.getOwnerName();
 	}
@@ -191,9 +191,7 @@ public class Metoder {
 	 * @param d The date where after to remove a certain transaction
 	 * @throws FileNotFoundException
 	 */
-	public void executeTransactionsAfter(Date d) 
-			throws FileNotFoundException{
-		ArrayList<Transaktion> transactions = readTransactions();
+	public void executeTransactionsAfter(Date d){
 		
 		for(Iterator<Transaktion> it = transactions.iterator(); it.hasNext();) {
 			Transaktion t = it.next();
@@ -203,6 +201,43 @@ public class Metoder {
 			}			
 		}
 	}
-
-
+	
+	/**
+	 * Save current changes to given files.  
+	 * @throws IOException
+	 */
+	public void saveChanges() throws IOException{
+		File backup;
+		String[] files = {accountFile, transactionLogFile, surveillanceFile};
+		BufferedWriter accountWriter, logWriter, surveillanceWriter;
+		
+		for(String file: files) {
+			backup = new File(file + ".bak");
+			if(backup.exists())
+				backup.delete();
+			new File(file)
+				.renameTo(new File(file + ".bak"));
+		}
+	
+	
+		accountWriter
+			= new BufferedWriter(new FileWriter(accountFile));
+		logWriter
+			= new BufferedWriter(new FileWriter(transactionLogFile));
+		surveillanceWriter
+			= new BufferedWriter(new FileWriter(surveillanceFile));
+		
+		for(Konto a : accounts)
+			accountWriter.write(accountToString(a));
+		
+		for(Transaktion t : transactions)
+			surveillanceWriter.write(t.toString());
+		
+		for(GjordaTransaktioner l : transactionLog)
+			logWriter.write(l.toString());
+		
+		accountWriter.close();
+		surveillanceWriter.close();
+		logWriter.close();
+	}
 }
