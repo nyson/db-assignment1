@@ -4,6 +4,8 @@ import java.util.*;
 /**
  * 
  * @author Jonathan Skårstedt
+ * @author Oskar Pålsgård
+ * @author Magnus Duberg
  * 
  */
 public class Transaktion {
@@ -93,11 +95,6 @@ public class Transaktion {
     	
     }
 
-    
-    public boolean execute(){
-    	
-    	return true;
-    }
     /**
      */
     private String logFormatTransaction(Transaktion t) {

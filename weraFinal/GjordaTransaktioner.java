@@ -4,21 +4,6 @@ class GjordaTransaktioner extends Transaktion {
 	private Date executionDate;
 
 	/**
-	 * without notice
-	 * 
-	 * @param dueDate
-	 * @param sourceAccount
-	 * @param destinationAccount
-	 * @param amount
-	 * @param ocrMessage
-	 */
-	public GjordaTransaktioner(Date dueDate, String sourceAccount, 
-			String destinationAccount, double amount, 
-			String ocrMessage){
-		super(dueDate, sourceAccount, destinationAccount, amount, ocrMessage);
-	}
-
-	/**
 	 * with notice
 	 * 
 	 * @param dueDate
@@ -27,12 +12,19 @@ class GjordaTransaktioner extends Transaktion {
 	 * @param amount
 	 * @param ocrMessage
 	 */
-	public GjordaTransaktioner(Date dueDate, String sourceAccount, 
-			String destinationAccount, double amount, 
-			String ocrMessage, String notice){
+	public GjordaTransaktioner(Date exDate, Date dueDate, String sourceAccount, 
+			String destinationAccount, double amount, String notice){
+
 		super(dueDate, sourceAccount, destinationAccount, 
-				amount, ocrMessage, notice);		
+				amount, "", notice);
+		setExecutionDate(exDate);
 	}	
-    /**
-     */
+
+	public void setExecutionDate(Date ex) {
+		executionDate = ex;
+	}
+	
+	public Date getExecutionDate() { 
+		return executionDate; 
+	}
 }

@@ -10,11 +10,13 @@ public class Metoder {
 	private String accountFile;
 	private String transactionLogFile;
 	private String surveillanceFile;
+	
+		
 	private SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
 
 	public ArrayList<Transaktion> transactions;
 	public Konto[] accounts;
-	public ArrayList<GjordaTransaktioner> transactionLog;
+	public ArrayList<String> transactionLog;
 	
 	public Metoder(String accountPath, String logPath, 
 			String surveillancePath) throws FileNotFoundException{
@@ -24,10 +26,7 @@ public class Metoder {
 
 		readAccounts();
 		
-		/*
 		readTransactions();
-		readTransactionLog();
-		*/
 	}
 
 	/**
@@ -69,30 +68,6 @@ public class Metoder {
 	}
 
 	/**
-	 * Traverses the transaction log file and populates an ArrayList of 
-	 * GjordaTransaktioner:s. 
-	 * @return an ArrayList representation of the log file
-	 * @throws FileNotFoundException
-	 */
-	public void readTransactionLog() 
-			throws FileNotFoundException {
-		ArrayList<GjordaTransaktioner> et 
-			= new ArrayList<GjordaTransaktioner>();
-		Scanner etFile;
-		String[] etTemp;
-
-		etFile = new Scanner(new File(transactionLogFile));
-		while(etFile.hasNextLine()) {
-			etTemp = etFile.nextLine().split(";|#");
-			et.add(new GjordaTransaktioner(new Date(), "", "", 0, ""));
-			
-		}
-
-		etFile.close();
-		transactionLog = et;
-	}
-
-	/**
 	 * Read the surveillance and populate an ArrayList with the data
 	 * @return An ArrayList of the given data
 	 * @throws FileNotFoundException
@@ -100,7 +75,6 @@ public class Metoder {
 	public void readTransactions() throws FileNotFoundException{
 		Scanner tFile;
 		String[] t;
-		Date transDate;
 		ArrayList<Transaktion> tList = new ArrayList<Transaktion>();
 
 		tFile = new Scanner(new File(surveillanceFile));
@@ -220,12 +194,24 @@ public class Metoder {
 			Transaktion t = it.next();
 			
 			if(t.dueDate.before(before) && t.dueDate.after(after)) {
-				t.execute();
+				executeTransaction(t);
 				it.remove();
 			} else
 				System.out.println
 					(dFormat.format(t.dueDate) + " won't be processed");
 		}
+	}
+	
+	public void executeTransaction(Transaktion t){		
+		Konto source = findAccount(t.getSourceAccount());
+		Konto destination = findAccount(t.getDestinationAccount());
+		if(source != null)
+			source.withdraw(t.getAmount());
+		
+		if(destination != null)
+			destination.depositAmount(t.getAmount());
+		
+		log(t);
 	}
 	
 	
@@ -252,6 +238,13 @@ public class Metoder {
 		
 		return accounts[pos];
 	}
+	
+	public void log(Transaktion t){		
+		transactionLog.add(new GjordaTransaktioner
+				(new Date(), t.getDueDate(), t.getSourceAccount(), 
+				t.getDestinationAccount(), t.getAmount(), t.getOcrMessage()));
+	}
+	
 	/**
 	 * Save current changes to given files.  
 	 * @throws IOException
