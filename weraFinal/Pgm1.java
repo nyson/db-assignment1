@@ -21,7 +21,6 @@ import java.util.*;
 public class Pgm1 {
     public static void main(String[] args) {
     	Metoder m;
-    	
         System.out.println("\n*** Wera's betalservice - Pgm1 ***");
         System.out.println
         	("\n* Detta program utfor alla annu ej utforda transaktioner *");
@@ -30,22 +29,27 @@ public class Pgm1 {
         
         try {
         	m = buildMetoder();        	
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
         	System.out.println("Kunde inte hitta en eller flera av de angivna"
-        			+ "filerna, var god försök igen. \n" + e.getMessage());
+        			+ " filerna, var god försök igen. \n" 
+        			+ "Working dir: " + new File("").getAbsolutePath() + "\n"
+        			+ e);
         	return;
         }
         
-        Date lastWeek = new Date(); 
-        m.executeAllTransactionsAfter(lastWeek);
-        
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.WEEK_OF_YEAR, -1);
+        Date lastWeek = c.getTime();
+
+        m.executeAllTransactionsBetween(lastWeek, new Date());
+        /*        
         try {
         	m.saveChanges();
         } catch (IOException e) {
         	System.out.println("Kunde inte spara ändringar: " + e.getMessage());
         }
        
-        
+        */
     }
     
     /**
@@ -53,41 +57,46 @@ public class Pgm1 {
      * @return a freshly baked Metoder object
      * @throws FileNotFoundException
      */
-    private static Metoder buildMetoder() throws FileNotFoundException{
-    	Scanner in = new Scanner(System.in);
+    private static Metoder buildMetoder() 
+    	throws FileNotFoundException, IOException{
+    	BufferedReader in 
+    		= new BufferedReader(new InputStreamReader (System.in));
     	String temp, accounts, log, survey;
     	
-    	String defaultAccountsFile = "./utf8data/_Konto.txt";
-    	String defaultLogFile = "./utf8data/_GjordaTransaktioner.txt";
-    	String defaultSurveillanceFile = "./utf8data/_Bevakning.txt";
+    	String defaultAccountsFile = "utf8data/_Konton.txt";
+    	String defaultLogFile = "utf8data/_GjordaTransaktioner.txt";
+    	String defaultSurveillanceFile = "utf8data/_Bevakning.txt";
     	
     	System.out.println("Var god och mata in dina filer, eller tryck bara "
     			+ "enter för att ange den förvalda inställningen.");
     	
     	System.out.print("Kontofil ("+defaultAccountsFile+"): ");
-    	temp = in.next();
-    	if(temp.trim().length() > 0)
+    	temp = in.readLine();
+    	if(temp.trim().length() > 0) 
     		accounts = temp;
-    	else
+    	else {
+    		System.out.println("Använder '"+defaultAccountsFile+"'");
     		accounts = defaultAccountsFile;
+    	}
     	
     	System.out.print("Logfil ("+defaultLogFile+"): ");
-    	temp = in.next();
+    	temp = in.readLine();
     	if(temp.trim().length() > 0)
     		log = temp;
-    	else
-    		log = defaultAccountsFile;
+    	else {
+    		System.out.println("Använder '"+defaultLogFile+"'");
+    		log = defaultLogFile;
+    	}
     	
     	System.out.print("Bevakningsfil ("+defaultSurveillanceFile+"): ");
-    	temp = in.next();
+    	temp = in.readLine();
     	if(temp.trim().length() > 0)
     		survey = temp;
-    	else
-    		survey = defaultAccountsFile;
-    	
-    	
-    	
-    	    	
+    	else {
+    		System.out.println("Använder '"+defaultSurveillanceFile+"'");
+    		survey = defaultSurveillanceFile;
+    	}
+
     	in.close();
     	return new Metoder(accounts, log, survey);
     } 
