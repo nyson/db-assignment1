@@ -25,9 +25,27 @@ public class Metoder {
 		surveillanceFile = surveillancePath;
 
 		readAccounts();
-		
 		readTransactions();
+		readLog();
+		
 	}
+
+	/**
+	 * Reads the log
+	 * @throws FileNotFoundException
+	 */
+	public void readLog() throws FileNotFoundException{
+		Scanner logFile;
+		transactionLog = new ArrayList<String>();
+
+		logFile = new Scanner(new File(transactionLogFile));
+
+		while(logFile.hasNextLine()) {
+			transactionLog.add(logFile.nextLine());
+		}
+
+		logFile.close();
+	}		
 
 	/**
 	 * Validate an OCR number according to the Luhn algorithm
@@ -176,11 +194,13 @@ public class Metoder {
 	 * @param k Konto to format
 	 * @return 
 	 */
-	public String accountToString(Konto k) {
+	public static String accountToString(Konto k) {
 		if(k == null)
 			return "That's no account, that's a space station!";
-		return k.getAccountName() + ", " + k.getAccountNumber()
-				+ ", " + k.getAvailableAmount() + ", " + k.getOwnerName();
+		return String.format("%-20s %10s %5d %20s", k.getAccountName(),
+				k.getAccountNumber(), k.getAvailableAmount(),
+				k.getOwnerName());
+
 	}
 	
 	/**
@@ -196,9 +216,7 @@ public class Metoder {
 			if(t.dueDate.before(before) && t.dueDate.after(after)) {
 				executeTransaction(t);
 				it.remove();
-			} else
-				System.out.println
-					(dFormat.format(t.dueDate) + " won't be processed");
+			} 
 		}
 	}
 	
@@ -215,8 +233,12 @@ public class Metoder {
 	}
 	
 	
+	/**
+	 * Finds an account by binary search
+	 * @param account Account string to search for
+	 * @return
+	 */	
 	public Konto findAccount(String account){
-		// find size
 		int size;
 		for(size = 0; accounts[size] != null; size++);
 		
@@ -225,7 +247,6 @@ public class Metoder {
 		int pos = max / 2;
 
 		while(!accounts[pos].getAccountNumber().equals(account)) {			
-			System.out.println("min, pos, max: " + min +", "+ pos +", "+ max);
 			if(accounts[pos].getAccountNumber().compareTo(account) > 0)
 				max = pos;
 			else
@@ -233,16 +254,19 @@ public class Metoder {
 			
 			pos = (max - min) / 2 + min;
 		}
-		
-		System.out.println("Found at " + pos);
-		
 		return accounts[pos];
 	}
 	
 	public void log(Transaktion t){		
-		transactionLog.add(new GjordaTransaktioner
-				(new Date(), t.getDueDate(), t.getSourceAccount(), 
-				t.getDestinationAccount(), t.getAmount(), t.getOcrMessage()));
+		transactionLog.add("OK;" + dFormat.format(new Date()) + "#"
+				+ dFormat.format(t.dueDate) + ";" + t.sourceAccount
+				+ ";" + t.destinationAccount + ";" 
+				+ Double.toString(t.getAmount()).replace(".", ","));
+	}
+	
+	
+	public Konto[] getAccounts(){
+		return accounts.clone();		
 	}
 	
 	/**
@@ -276,11 +300,61 @@ public class Metoder {
 		for(Transaktion t : transactions)
 			surveillanceWriter.write(t.toString());
 		
-		for(GjordaTransaktioner l : transactionLog)
-			logWriter.write(l.toString());
+		for(String l : transactionLog)
+			logWriter.write(l);
 		
 		accountWriter.close();
 		surveillanceWriter.close();
 		logWriter.close();
 	}
+	
+
+    /**
+     * Creates a method object for handling bank business
+     * @return a freshly baked Metoder object
+     * @throws FileNotFoundException
+     */
+	public static Metoder buildMetoder() 
+    	throws FileNotFoundException, IOException{
+    	BufferedReader in 
+    		= new BufferedReader(new InputStreamReader (System.in));
+    	String temp, accounts, log, survey;
+    	
+    	String defaultAccountsFile = "utf8data/_Konton.txt";
+    	String defaultLogFile = "utf8data/_GjordaTransaktioner.txt";
+    	String defaultSurveillanceFile = "utf8data/_Bevakning.txt";
+    	
+    	System.out.println("Var god och mata in dina filer, eller tryck bara "
+    			+ "enter för att ange den förvalda inställningen.");
+    	
+    	System.out.print("Kontofil ("+defaultAccountsFile+"): ");
+    	temp = in.readLine();
+    	if(temp.trim().length() > 0) 
+    		accounts = temp;
+    	else {
+    		System.out.println("Använder '"+defaultAccountsFile+"'");
+    		accounts = defaultAccountsFile;
+    	}
+    	
+    	System.out.print("Logfil ("+defaultLogFile+"): ");
+    	temp = in.readLine();
+    	if(temp.trim().length() > 0)
+    		log = temp;
+    	else {
+    		System.out.println("Använder '"+defaultLogFile+"'");
+    		log = defaultLogFile;
+    	}
+    	
+    	System.out.print("Bevakningsfil ("+defaultSurveillanceFile+"): ");
+    	temp = in.readLine();
+    	if(temp.trim().length() > 0)
+    		survey = temp;
+    	else {
+    		System.out.println("Använder '"+defaultSurveillanceFile+"'");
+    		survey = defaultSurveillanceFile;
+    	}
+
+    	in.close();
+    	return new Metoder(accounts, log, survey);
+    } 
 }

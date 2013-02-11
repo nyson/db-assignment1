@@ -30,14 +30,22 @@ import java.util.*;
 public class Pgm2 {
 
     private static Scanner tbScanner = new Scanner(System.in);
+    private static Metoder m;
 
     /**
      *  Mainmetod med while-loop för Pgm2's val
      */
     public static void main(String[] args){
-
         System.out.println("\n*** Wera's betalservice - Pgm2 ***");
         System.out.println("\n* Detta program gor foljande: *");
+
+    	
+    	try {
+    		m = Metoder.buildMetoder();
+    	} catch (IOException e) {
+    		System.out.println("Kunde inte öppna angivna filer");
+    	}
+    	
 
         String huvudMeny =
         "1. Lista konto        4. Ta ut pengar\n" +
@@ -75,6 +83,7 @@ public class Pgm2 {
      * visar information om ett konto
      */
     private static void listaKonton() {
+    	
         System.out.print("Ange kontonummer (Enter for att se alla konton): ");
         String kontoNummer = tbScanner.nextLine();
         if (kontoNummer.length() > 0) {  // om ett konto skall visas?
@@ -85,8 +94,9 @@ public class Pgm2 {
             }
             tbScanner.nextLine();
         } else { // Visa alla konton, snyggt med kontonr, ägare och saldo 
-            System.out.print("Konto hit, konto dit, ags av hen, har si mycket saldo...");
-            tbScanner.nextLine();    
+        	System.out.println("Visar alla kontonummer: ");
+        	
+        	tbScanner.nextLine();    
         }
     }
     
