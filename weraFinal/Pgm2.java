@@ -19,6 +19,7 @@ Notera att OCR-numrets kontrollsiffra skall kontrolleras. I
 
 // import java.awt.*;
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 /**   
@@ -29,134 +30,255 @@ import java.util.*;
  */
 public class Pgm2 {
 
-    private static Scanner tbScanner = new Scanner(System.in);
-    private static Metoder m;
+	private static Scanner tbScanner;
+	private static Metoder m;
 
-    /**
-     *  Mainmetod med while-loop för Pgm2's val
-     */
-    public static void main(String[] args){
-        System.out.println("\n*** Wera's betalservice - Pgm2 ***");
-        System.out.println("\n* Detta program gor foljande: *");
+	/**
+	 *  Mainmetod med while-loop för Pgm2's val
+	 */
+	public static void main(String[] args){
+		System.out.println("\n*** Wera's betalservice - Pgm2 ***"
+				+ "Detta program låter dig lista "
+				+ "konton och göra andra bankärenden!");
 
-    	
-    	try {
-    		m = Metoder.buildMetoder();
-    	} catch (IOException e) {
-    		System.out.println("Kunde inte öppna angivna filer");
-    	}
-    	
 
-        String huvudMeny =
-        "1. Lista konto        4. Ta ut pengar\n" +
-        "2. Skapa nytt konto   5. Registrera ny transaktion\n" +
-        "3. Satt in pengar     0. Avsluta\n" +
-        "Pgm2:>";
+		try {
+			m = Metoder.buildMetoder();
+		} catch (IOException e) {
+			System.out.println("Kunde inte öppna angivna filer.");
+		} 
 
-        boolean avsluta = false; // Huvudmenyn är igång sålänge 0
-        while(!avsluta) {
-            System.out.print(huvudMeny);
-            switch (tbScanner.nextLine()){
-                case "1": listaKonton(); break;             // Val 1. Konto(n)
-                case "2": skapaKonto(); break;              // Val 2. Skapa nytt konto
-                case "3": sattInPengar(); break;            // Val 3. Sätt in pengar
-                case "4": taUtPengar(); break;              // Val 4. Ta ut pengar                
-                case "5": registreraTransaktion(); break;   // Val 5. Registrera transaktion               
-                case "0": avsluta = avsluta(); break;       // avsluta programmet?
-                default: System.out.println("Forsok igen! (0-5)"); break; // Fel inmatning
-            }
-        }
-        System.out.print("Avslutar. Tack och hej.");
-    }
+		tbScanner = new Scanner(System.in);
 
-    /**        
-     * kontrollerar om ett kontonummer existerar
-     */
-    private static boolean giltigtKontonummer(String kontoNummer){
-            System.out.println("Kollar om kontot " + kontoNummer + " finns..");
-            try {Thread.sleep(2000);}catch(Exception e){
-                System.out.println("kunde inte pausa" + e.toString());}
-        return true;
-    }
+		System.out.println("\n* Detta program gor foljande: *");
 
-    /**        
-     * visar information om ett konto
-     */
-    private static void listaKonton() {
-    	
-        System.out.print("Ange kontonummer (Enter for att se alla konton): ");
-        String kontoNummer = tbScanner.nextLine();
-        if (kontoNummer.length() > 0) {  // om ett konto skall visas?
-            if (giltigtKontonummer(kontoNummer)) {
-                System.out.println("Visar info om kontot"); // Visa snyggt ägare och saldo om detta kontot
-            } else {
-                System.out.println("Annars meddela att kontot inte finns");
-            }
-            tbScanner.nextLine();
-        } else { // Visa alla konton, snyggt med kontonr, ägare och saldo 
-        	System.out.println("Visar alla kontonummer: ");
-        	
-        	tbScanner.nextLine();    
-        }
-    }
-    
-    /**        
-     * Lägga till konto/betalningsmottagare
-     */
-    private static void skapaKonto() {
-        // kontroll så att det inte redan finns ett konto med det numret.
-            // Valfritt är att lägga in en funktion som slumpar fram ett kontonummer.
-            // Ett kontonummer får inte bestå av fler än 12 tecken inklusive max/minst ett bindestreck.
-    }
 
-    /**        
-     * Sätta in pengar på konto.
-     */
-    private static void sattInPengar() {
-        // just do it
-    }
+		String huvudMeny =
+			"1. Lista konto        4. Ta ut pengar\n" +
+			"2. Skapa nytt konto   5. Registrera ny transaktion\n" +
+			"3. Satt in pengar     0. Avsluta\n" +
+			"Gör ditt val: ";
 
-    /**        
-     * Ta ut pengar från konto.
-     */
-    private static void taUtPengar() {
-        // just do it
-    }
- 
-    /**        
-     * Lägga in överföringar och räkningar.
-     */
-    private static void registreraTransaktion() {
-        // Se klasserna Transaktion för information om vad som skall matas in för en räkning/överföring.
-        // En minnesantackning för en betalning/överföring får vara max 15 tecken.
-        // Det ska gå att välja att skicka antingen ett OCR-nummer eller ett meddelande till mottagaren av betalningen/överföringen.
-        // Ett meddelande/OCR-nummer får vara minst ett tecken och max 15 tecken. (Om endast siffror har angivits så antas det vara ett OCR-nummer annars antas det vara ett meddelande till betalningsmottagaren).
-        // Notera att OCR-numrets kontrollsiffra skall kontrolleras.
-    }
+		boolean avsluta = false;
+		while(!avsluta) {
+			System.out.print(huvudMeny);
+			switch (tbScanner.nextLine()){
+			case "1": 
+				listaKonton(); 
+				break;
+				
+			case "2": 
+				skapaKonto(); 
+				break;
+				
+			case "3": 
+				sattInPengar(); 
+				break;
+				
+			case "4": 
+				taUtPengar(); 
+				break;
+				
+			case "5": 
+				registreraTransaktion(); 
+				break;
+				
+			case "0": 
+				System.out.println("Avslutar programmet!");
+				avsluta = true; 
+				break;
+				
+			default: 
+				System.out.println("Forsok igen! (0-5)"); 
+				break;
+			}
+		}
+		System.out.print("Avslutar. Tack och hej.");
+	}
 
-    /**        
-     * metod avsluta()
-     * Returnerar vilken menyNivå programmet skall fortsätta på
-     */
-    private static boolean avsluta(){
-        System.out.print("Avsluta? ");
+	/**        
+	 * visar information om ett konto
+	 */
+	private static void listaKonton() {
+		System.out.print
+			("Ange kontonummer eller enter for att se alla konton: ");
+		String accountNumber = tbScanner.nextLine();
+		
+		if (accountNumber.trim().length() > 0) {  // om ett konto skall visas?
+			Konto k = m.findAccount(accountNumber);
 
-        String svar = "";
+			if (k != null) {
+				System.out.println(Metoder.accountToString(k));
+			} else {
+				System.out.println("Kontot hittades inte!");
+			}
+			tbScanner.nextLine();
+		} else { 
+			System.out.println("Visar alla kontonummer: ");
+			Konto[] accounts = m.getAccounts();
+			for(Konto k : accounts) {
+				if(k == null)
+					break;
 
-        while (true) { // sålänge varken ja eller nej angetts
-            System.out.print("j/n:> ");
-            svar = tbScanner.nextLine(); // läs
-            if (svar.equals("j")) {                  // om ja
-                spara(); return true;
-            } else if (svar.equals("n")) {            // om nej
-                return false;
-            }
-        }
-    }
+				System.out.println(Metoder.accountToString(k));
+			}
+			tbScanner.nextLine();    
+		}
+	}
 
-    private static void spara(){
-        System.out.print("Sparar... ");
-        try {Thread.sleep(1300);}catch(Exception e){
-            System.out.println("kunde inte pausa" + e.toString());}
-    }
+	/**        
+	 * Lägger till Konto
+	 */
+	private static void skapaKonto() {
+		String number, name, owner;
+		double amount;
+		Konto k;
+		
+		System.out.println("Välkommen att skapa ett nytt konto!");
+		System.out.print("Skriv in kontonummer: ");
+		number = tbScanner.nextLine();
+
+		System.out.print("Skriv in kontonamn: ");
+		name = tbScanner.nextLine();
+
+		System.out.print("Skriv in ägarens namn: ");
+		owner = tbScanner.nextLine();
+	
+		System.out.print("Skriv in saldo: ");
+		amount = tbScanner.nextDouble();
+		
+		k = new Konto(number, amount, name, owner);
+		m.addAccount(k);
+		
+		System.out.println("Ditt nya konto är inlagt!\n"
+			+ "Det här är ditt nya konto: "
+			+ Metoder.accountToString(k));
+	}
+
+	/**        
+	 * Sätta in pengar på konto.
+	 */
+	private static void sattInPengar() {
+		System.out.println("Välkommen till pengainsättningen!");
+		System.out.print("Skriv in kontonummer: ");
+		Konto k = m.findAccount(tbScanner.nextLine());
+		
+		if(k == null) {
+			System.out.println("Finns inget konto med det numret!");
+			return;
+		}
+		
+		System.out.println("Konto: " + Metoder.accountToString(k));
+		System.out.print
+			("Vänligen skriv i hur mycket pengar ni vill sätta in: ");
+		
+		double amount = tbScanner.nextDouble();
+		
+		k.depositAmount(amount);
+		
+		System.out.println("Du har nu satt in " + amount + " pengar på "
+			+ "ditt konto: \n" + Metoder.accountToString(k));
+	}
+
+	/**        
+	 * Ta ut pengar från konto.
+	 */
+	private static void taUtPengar() {
+		System.out.println("Välkommen till pengauttagningen!");
+		System.out.print("Skriv in kontonummer: ");
+		Konto k = m.findAccount(tbScanner.nextLine());
+		
+		if(k == null) {
+			System.out.println("Finns inget konto med det numret!");
+			return;
+		}
+		
+		System.out.println("Konto: " + Metoder.accountToString(k));
+		System.out.print
+			("Vänligen skriv i hur mycket pengar ni vill ta ut: ");
+		
+		double amount = tbScanner.nextDouble();
+		
+		k.depositAmount(amount);
+		
+		System.out.println("Du har tagit ut " + amount + " pengar på "
+			+ "ditt konto: \n" + Metoder.accountToString(k));
+		
+	}
+
+	/**        
+	 * Lägga in överföringar och räkningar.
+	 */
+	private static void registreraTransaktion() {
+		SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+		Konto source, destination;
+		Date due;
+		double amount;
+		String ocr, not;
+		Transaktion t;
+		
+		System.out.println("Välkommen att skapa en transaktion!");
+
+		System.out.print("Skriv i avsändarens kontonummer: ");
+		source = m.findAccount(tbScanner.nextLine());
+		
+		if(source == null) {
+			System.out.println("Det finns inget konto med det numret!");
+			return;
+		}
+			
+		System.out.print("Skriv i mottagarens kontonummer: ");
+		destination = m.findAccount(tbScanner.nextLine());
+		
+		if(destination == null) {
+			System.out.println("Det finns inget konto med det numret!");
+			return;
+		}
+		
+		System.out.print("Skriv vilket datum, i formatet yyyyMMdd, du vill att"
+				+ " transaktionen ska genomföras: ");
+		
+		try {
+			due = dFormat.parse(tbScanner.nextLine());
+		} catch (ParseException e) {
+			System.out.println("Datumet du angav var i ogiltigt format!");
+			return;
+		}
+
+		System.out.print("Skriv i mängd pengar att överföra: ");
+		try {
+			amount = tbScanner.nextDouble();
+		} catch(NumberFormatException e) {
+			System.out.println("Det där är inte ett giltigt tal.");
+			return;
+		}
+		
+		System.out.print("Skriv i ett OCR: ");
+		ocr = tbScanner.nextLine();
+		
+		if(ocr.length() > 15 || ocr.length() <= 1 || !m.validOcr(ocr)) {
+			System.out.println("Ditt inmatade OCR var ogiltigt!");
+			return;
+		}
+		
+		System.out.println("Lägg till en notering eller lämna fältet blankt: ");
+		not = tbScanner.nextLine();
+		
+		if(not.trim().length() > 0)
+			t = new Transaktion(due, source.getAccountNumber(), 
+					destination.getAccountNumber(), amount, ocr);
+		else
+			t = new Transaktion(due, source.getAccountNumber(), 
+					destination.getAccountNumber(), amount, ocr, not);
+		
+		
+		m.addTransaction(t);
+		System.out.println("Transaktion tillagd!\n" + t);
+		
+		// Se klasserna Transaktion för information om vad som skall matas in för en räkning/överföring.
+		// En minnesantackning för en betalning/överföring får vara max 15 tecken.
+		// Det ska gå att välja att skicka antingen ett OCR-nummer eller ett meddelande till mottagaren av betalningen/överföringen.
+		// Ett meddelande/OCR-nummer får vara minst ett tecken och max 15 tecken. (Om endast siffror har angivits så antas det vara ett OCR-nummer annars antas det vara ett meddelande till betalningsmottagaren).
+		// Notera att OCR-numrets kontrollsiffra skall kontrolleras.
+	}
 }

@@ -74,6 +74,10 @@ public class Metoder {
 		return (checksum % 10 == 0);
 	}
 
+	public void addTransaction(Transaktion t){
+		transactions.add(t);
+	}
+	
 	/**
 	 * Translates a swedish double precision string representation of a digit 
 	 * to a double. String must be in "x,y" form.
@@ -196,8 +200,9 @@ public class Metoder {
 	 */
 	public static String accountToString(Konto k) {
 		if(k == null)
-			return "That's no account, that's a space station!";
-		return String.format("%-20s %10s %5d %20s", k.getAccountName(),
+			return "";
+		
+		return String.format("%-20s %-15s %20.2f %20s", k.getAccountName(),
 				k.getAccountNumber(), k.getAvailableAmount(),
 				k.getOwnerName());
 
@@ -295,20 +300,50 @@ public class Metoder {
 			= new BufferedWriter(new FileWriter(surveillanceFile));
 		
 		for(Konto a : accounts)
-			accountWriter.write(accountToString(a));
+			if(a == null)
+				break;
+			else
+				accountWriter.write(accountToString(a) + "\n");
 		
 		for(Transaktion t : transactions)
-			surveillanceWriter.write(t.toString());
+			surveillanceWriter.write(t.toString() + "\n");
 		
 		for(String l : transactionLog)
-			logWriter.write(l);
+			logWriter.write(l + "\n");
 		
 		accountWriter.close();
 		surveillanceWriter.close();
 		logWriter.close();
 	}
 	
+	/**
+	 * 
+	 * @param k
+	 */
+	public void addAccount(Konto k){
+		int size;
+		for(size = 0; accounts[size] != null; size++);
+		accounts[size] = k;
+		
+		// sorting the array
+		Konto temp;
+		boolean sorted = true;
+		while(sorted){
+			sorted = false;
+			for(int i = size - 1; i > 0 && i <= size; i--){
+				if(accounts[i].getAccountNumber()
+					.compareTo(accounts[i-1].getAccountNumber()) < 0){
 
+					sorted = true;
+					temp = accounts[i];
+					accounts[i] = accounts[i-1];
+					accounts[i-1] = temp;							
+				}
+			}
+		}		
+	}
+	
+	
     /**
      * Creates a method object for handling bank business
      * @return a freshly baked Metoder object
@@ -354,7 +389,6 @@ public class Metoder {
     		survey = defaultSurveillanceFile;
     	}
 
-    	in.close();
     	return new Metoder(accounts, log, survey);
     } 
 }
