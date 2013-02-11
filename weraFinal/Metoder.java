@@ -16,8 +16,8 @@ public class Metoder {
 
 	public ArrayList<Transaktion> transactions;
 	public Konto[] accounts;
-	public ArrayList<String> transactionLog;
-	
+	public ArrayList<GjordaTransaktioner> transactionLog;
+	public ArrayList<String> log;
 	public Metoder(String accountPath, String logPath, 
 			String surveillancePath) throws FileNotFoundException{
 		accountFile = accountPath;
@@ -36,12 +36,30 @@ public class Metoder {
 	 */
 	public void readLog() throws FileNotFoundException{
 		Scanner logFile;
-		transactionLog = new ArrayList<String>();
+		String[] log;
+		String temp;
+		transactionLog = new ArrayList<GjordaTransaktioner>();
 
 		logFile = new Scanner(new File(transactionLogFile));
 
+		/**
+		 * 	public GjordaTransaktioner(Date exDate, String transNotice, 
+			Date dueDate, String sourceAccount, 
+			String destinationAccount, double amount, String notice){
+
+
+		 */
 		while(logFile.hasNextLine()) {
-			transactionLog.add(logFile.nextLine());
+			temp = logFile.nextLine();
+			log = temp.split(";|#");
+			try {
+				transactionLog.add(new GjordaTransaktioner(
+					dFormat.parse(log[1]), log[0], dFormat.parse(log[2]), 
+					log[3], log[4], parseSweDouble(log[5]), ""));
+				
+			} catch (ParseException e) {
+				break; // badly formatted date
+			}
 		}
 
 		logFile.close();
@@ -225,6 +243,33 @@ public class Metoder {
 		}
 	}
 	
+	/**
+	 * Archives older transactions to file
+	 * @param olderThan Only archive transactions older than this
+	 * @param archive file where to save the archive
+	 * @throws IOException
+	 */
+	public void archiveTransactions(Date olderThan, File archive) 
+			throws IOException{		
+		BufferedWriter archiveWriter 
+			= new BufferedWriter(new FileWriter(archive.toString()));
+		
+		for(Iterator<Transaktion> it = transactions.iterator(); it.hasNext();) {
+			Transaktion t = it.next();
+			
+			if(t.dueDate.before(olderThan)) {
+				archiveWriter.write(t.toFileString() + "\n");
+				it.remove();
+			} 
+		}
+		
+		archiveWriter.close();
+	}
+	
+	/**
+	 * Executes a transaction
+	 * @param t
+	 */
 	public void executeTransaction(Transaktion t){		
 		Konto source = findAccount(t.getSourceAccount());
 		Konto destination = findAccount(t.getDestinationAccount());
@@ -256,17 +301,18 @@ public class Metoder {
 				max = pos;
 			else
 				min = pos;
-			
+		
+			if(pos == (max - min) / 2 + min)
+				return null;
 			pos = (max - min) / 2 + min;
 		}
 		return accounts[pos];
 	}
 	
 	public void log(Transaktion t){		
-		transactionLog.add("OK;" + dFormat.format(new Date()) + "#"
-				+ dFormat.format(t.dueDate) + ";" + t.sourceAccount
-				+ ";" + t.destinationAccount + ";" 
-				+ Double.toString(t.getAmount()).replace(".", ","));
+		transactionLog.add(new GjordaTransaktioner(new Date(), "OK;",
+			t.getDueDate(), t.getSourceAccount(),
+			t.getDestinationAccount(), t.getAmount(), ""));
 	}
 	
 	
@@ -303,13 +349,16 @@ public class Metoder {
 			if(a == null)
 				break;
 			else
-				accountWriter.write(accountToString(a) + "\n");
+				accountWriter.write(a.getAccountNumber() + "##"
+						+ a.getAvailableAmount() + "##"
+						+ a.getAccountName() + "##"
+						+ a.getOwnerName());
 		
 		for(Transaktion t : transactions)
-			surveillanceWriter.write(t.toString() + "\n");
+			surveillanceWriter.write(t.toFileString() + "\n");
 		
-		for(String l : transactionLog)
-			logWriter.write(l + "\n");
+		for(GjordaTransaktioner l : transactionLog)
+			logWriter.write(l.toFileString() + "\n");
 		
 		accountWriter.close();
 		surveillanceWriter.close();
@@ -391,4 +440,38 @@ public class Metoder {
 
     	return new Metoder(accounts, log, survey);
     } 
+	
+	/**
+	 * Fetches all logs after d
+	 * @param d 
+	 * @return ArrayList of GjordaTransaktioner
+	 */
+	public ArrayList<GjordaTransaktioner> getLogsAfter (Date d){
+		ArrayList<GjordaTransaktioner> out 
+			= new ArrayList<GjordaTransaktioner>();
+		for(GjordaTransaktioner l : transactionLog) {
+			if(l.getDueDate().after(d))
+				out.add(l);
+		}
+		return out;
+	}
+	
+	/**
+	 * Get logs by account number
+	 * @param account
+	 * @return arraylist of gjordatransaktioner
+	 */
+	public ArrayList<GjordaTransaktioner> getLogsByAccountNumber(String account){
+		ArrayList<GjordaTransaktioner> out 
+			= new ArrayList<GjordaTransaktioner>();
+		for(GjordaTransaktioner l : transactionLog) {
+			if(l.getSourceAccount().equals(account)
+				|| l.getDestinationAccount().equals(account))
+				out.add(l);
+		}
+		return out;
+	}
+	
+	
+	
 }

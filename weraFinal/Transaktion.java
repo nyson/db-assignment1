@@ -1,5 +1,6 @@
 //package weraFinal;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 /**
  * 
@@ -18,6 +19,9 @@ public class Transaktion {
 
 	protected Date dueDate; 
 
+	private SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+
+	
 	/**
 	 * Constructor without notice
 	 * 
@@ -71,11 +75,22 @@ public class Transaktion {
 				+ getNotice() + "\n\n";
 	}
 	
+	public String toFileString(){
+		String out = dFormat.format(getDueDate()) + "#" + getSourceAccount() 
+			+ "#" + getDestinationAccount() + "#" + getAmount() + "#"
+			+ getOcrMessage();
+		
+		if(notice.trim().length() > 0)
+			out += ";" + notice;
+		
+		return out;
+	}
+	/*
     private String logFormatDeposit(double wAmount) {
 	/*
 	  "TransaktionsNotering;transaktionsDatum#"
 	  + "önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg";
-	*/
+
 	return getNotice() + ";" + getDueDate().toString() + "#"
 	    + new Date().toString() + ";" 
 	    + wAmount + ";" + getDestinationAccount() + ";"
@@ -83,11 +98,11 @@ public class Transaktion {
     }
 
     /**
-     */
+
     private String logFormatWithdrawal(double amount) {
 	/*return "TransaktionsNotering;transaktionsDatum#"
 	    + "önskatDatum;KONTANTER;belopp;ocrMeddelande";
-	    */
+
     	return getNotice() + ";" + getDueDate().toString() + "#"
     		+ new Date().toString() + ";" + amount + ";" 
     		+ getDestinationAccount() + ";" + getAmount() + ";" 
@@ -96,12 +111,12 @@ public class Transaktion {
     }
 
     /**
-     */
+
     private String logFormatTransaction(Transaktion t) {
 	return "TransaktionsNotering;transaktionsDatum#önskatDatum;"
 	    +"källKontonummer;destinationsKonto;belopp;"
 	    +"ocrMeddelande;betalningsNotering";
-    }
+    } */
 	
 	public static void traverseMonitoredAccounts() throws Exception {
 		throw new Exception("not implemented");

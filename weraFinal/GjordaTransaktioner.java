@@ -2,7 +2,8 @@ import java.util.*;
 
 class GjordaTransaktioner extends Transaktion {
 	private Date executionDate;
-
+	private String transactionNotice;
+	
 	/**
 	 * with notice
 	 * 
@@ -12,35 +13,26 @@ class GjordaTransaktioner extends Transaktion {
 	 * @param amount
 	 * @param ocrMessage
 	 */
-	public GjordaTransaktioner(String in){
-		super(new Date(), "", "", 0, "", "");
-		
-		/**
-		 * insättning
-		 * tn;transdat#bevdat;KONTANTER;destk;belopp;ocr;bn
-		 */
-		if(in.matches("*;*#*;KONTANTER;*;*")) {
+	public GjordaTransaktioner(Date exDate, String transNotice, 
+			Date dueDate, String sourceAccount, 
+			String destinationAccount, double amount, String notice){
 
-		/**
-		 * uttag
-		 * tn;td#bd;KONTANTER;belopp;ocr
-		 */
-		} else if(in.matches(".*;[0-9]{8}#.*;KONTANTER;.*;.*")) {
-			
-		/**
-		 * transaktion
-		 * tn;td#bd;källkon;destkon;belopp;ocr;notering
-		 */
-		} else if(in.matches("*;*#*;*;*;*")) {
-			
-		}
-		//setExecutionDate(exDate);
+		super(dueDate, sourceAccount, destinationAccount, 
+				amount, "", notice);
+		setExecutionDate(exDate);
+		setTransactionNotice(transNotice);
 	}	
 
+	public void setTransactionNotice(String tn) {
+		transactionNotice = tn;
+	}	
 	public void setExecutionDate(Date ex) {
 		executionDate = ex;
 	}
-	
+
+	public String getTransactionNotice(){
+		return transactionNotice;
+	}	
 	public Date getExecutionDate() { 
 		return executionDate; 
 	}

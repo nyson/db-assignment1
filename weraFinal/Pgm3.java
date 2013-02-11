@@ -2,14 +2,20 @@ import java.util.*;
 import java.io.*;
 
 public class Pgm3{
-
+	private static Metoder m;
     private static Scanner tbScanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-	
         System.out.println("\n*** Wera's betalservice - Pgm3 ***");
         System.out.println("*** Detta program listar transaktioner ***");
 
+		try {
+			m = Metoder.buildMetoder();
+		} catch (IOException e) {
+			System.out.println("Kunde inte öppna angivna filer.");
+			return;
+		}        
+        
         String huvudMeny =
         "1. Arkivera forfallna transaktioner\n" +
         "2. Lista alla utforda transaktioner\n" +
@@ -20,13 +26,24 @@ public class Pgm3{
         while(!avsluta) {
             System.out.print(huvudMeny);
             switch (tbScanner.nextLine()){
-                case "1": arkiveraGamlaTransaktioner(); break;
-                case "2": listaTransaktioner(); break;
-                case "0": avsluta = avsluta(); break;       // avsluta programmet?
-                default: System.out.println("Forsok igen! (0-2)"); break; // Fel inmatning
+                case "1": 
+                	arkiveraGamlaTransaktioner(); 
+                	break;
+                	
+                case "2": 
+                	listaTransaktioner(); 
+                	break;
+                	
+                case "0": 
+                	avsluta = true;
+                	System.out.println("Avslutar applikationen");
+                	break;
+                	
+                default: 
+                	System.out.println("Forsok igen! (0-2)"); 
+                	break; // Fel inmatning
             }
         }
-        System.out.print("Avslutar. Tack och hej.");
     }
 
 
@@ -35,17 +52,30 @@ public class Pgm3{
     *  skriver in vilket filnamn man vill spara till).
     */
     private static void arkiveraGamlaTransaktioner(){
-        boolean filRedanFinns = true;
-        File fil = null;
+    	File archive;
+    	System.out.println("Välkommen till arkiveraren!");
+    	System.out.print
+    		("Vänligen mata in ett nytt filnamn att arkivera till: ");
+    	archive = new File(tbScanner.nextLine());
+    	
+    	while(archive.exists()){
+    		System.out.print
+    			("Filen existerar redan; var god mata in ett nytt filnamn: ");
+    		archive = new File(tbScanner.nextLine());
+    	}
+    	
+    	tbScanner.reset();        
+        System.out.println("Sparar till: " + archive);
 
-        System.out.print("Ange filnamn att spara till: ");
-        while(filRedanFinns) {
-        	fil = new File(tbScanner.next());
-        	if (!fil.exists()) filRedanFinns = false;
-        	else System.out.print("Finns redan, ange nytt filnamn: ");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.WEEK_OF_YEAR, -1);
+        
+        try {
+        	m.archiveTransactions(c.getTime(), archive); 
+        } catch (IOException e) {
+        	System.out.println("Kunde inte skriva till arkivfilen!");
         }
-        System.out.println("Sparar till: " + fil.toString());
-        tbScanner.reset();        
+        
     }
 
 

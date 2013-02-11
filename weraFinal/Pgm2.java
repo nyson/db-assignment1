@@ -17,7 +17,6 @@ Notera att OCR-numrets kontrollsiffra skall kontrolleras. I
  *
  */
 
-// import java.awt.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -46,7 +45,8 @@ public class Pgm2 {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
 			System.out.println("Kunde inte öppna angivna filer.");
-		} 
+			return;
+		}		
 
 		tbScanner = new Scanner(System.in);
 
@@ -197,7 +197,7 @@ public class Pgm2 {
 		System.out.print
 			("Vänligen skriv i hur mycket pengar ni vill ta ut: ");
 		
-		double amount = tbScanner.nextDouble();
+		double amount = Double.parseDouble(tbScanner.nextLine());
 		
 		k.depositAmount(amount);
 		
@@ -247,7 +247,7 @@ public class Pgm2 {
 
 		System.out.print("Skriv i mängd pengar att överföra: ");
 		try {
-			amount = tbScanner.nextDouble();
+			amount = Double.parseDouble(tbScanner.nextLine());
 		} catch(NumberFormatException e) {
 			System.out.println("Det där är inte ett giltigt tal.");
 			return;
