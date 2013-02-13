@@ -41,10 +41,13 @@ public class Pgm1 {
         c.add(Calendar.WEEK_OF_YEAR, -1);
         Date lastWeek = c.getTime();
 
-        m.executeAllTransactionsBetween(lastWeek, new Date());
+        
+        
        
         try {
+        	m.executeAllTransactionsBetween(lastWeek, new Date());
         	m.saveChanges();
+        	
         } catch (IOException e) {
         	System.out.println("Kunde inte spara ändringar: " + e.getMessage());
         }

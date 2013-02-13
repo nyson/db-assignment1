@@ -105,14 +105,15 @@ public class Pgm2 {
 		String accountNumber = tbScanner.nextLine();
 		
 		if (accountNumber.trim().length() > 0) {  // om ett konto skall visas?
-			Konto k = m.findAccount(accountNumber);
+			try {
+				Konto k = m.findAccount(accountNumber);
 
-			if (k != null) {
 				System.out.println(Metoder.accountToString(k));
-			} else {
+			} catch (NoSuchFieldException e){
 				System.out.println("Kontot hittades inte!");
 			}
 			tbScanner.nextLine();
+
 		} else { 
 			System.out.println("Visar alla kontonummer: ");
 			Konto[] accounts = m.getAccounts();
@@ -161,23 +162,27 @@ public class Pgm2 {
 	private static void sattInPengar() {
 		System.out.println("Välkommen till pengainsättningen!");
 		System.out.print("Skriv in kontonummer: ");
-		Konto k = m.findAccount(tbScanner.nextLine());
 		
-		if(k == null) {
+		try {
+			Konto k = m.findAccount(tbScanner.nextLine());
+			System.out.println("Konto: " + Metoder.accountToString(k));
+			System.out.print
+				("Vänligen skriv i hur mycket pengar ni vill sätta in: ");
+			
+			double amount = tbScanner.nextDouble();
+			
+			k.depositAmount(amount);
+			
+			System.out.println("Du har nu satt in " + amount + " pengar på "
+				+ "ditt konto: \n" + Metoder.accountToString(k));
+
+			
+		} catch (NoSuchFieldException e){
+			
 			System.out.println("Finns inget konto med det numret!");
 			return;
 		}
 		
-		System.out.println("Konto: " + Metoder.accountToString(k));
-		System.out.print
-			("Vänligen skriv i hur mycket pengar ni vill sätta in: ");
-		
-		double amount = tbScanner.nextDouble();
-		
-		k.depositAmount(amount);
-		
-		System.out.println("Du har nu satt in " + amount + " pengar på "
-			+ "ditt konto: \n" + Metoder.accountToString(k));
 	}
 
 	/**        
@@ -186,24 +191,24 @@ public class Pgm2 {
 	private static void taUtPengar() {
 		System.out.println("Välkommen till pengauttagningen!");
 		System.out.print("Skriv in kontonummer: ");
-		Konto k = m.findAccount(tbScanner.nextLine());
-		
-		if(k == null) {
+		try {
+			Konto k = m.findAccount(tbScanner.nextLine());
+			
+			System.out.println("Konto: " + Metoder.accountToString(k));
+			System.out.print
+				("Vänligen skriv i hur mycket pengar ni vill ta ut: ");
+			
+			double amount = Double.parseDouble(tbScanner.nextLine());
+			
+			k.depositAmount(amount);
+			
+			System.out.println("Du har tagit ut " + amount + " pengar på "
+				+ "ditt konto: \n" + Metoder.accountToString(k));
+			
+		} catch (NoSuchFieldException e){
 			System.out.println("Finns inget konto med det numret!");
 			return;
 		}
-		
-		System.out.println("Konto: " + Metoder.accountToString(k));
-		System.out.print
-			("Vänligen skriv i hur mycket pengar ni vill ta ut: ");
-		
-		double amount = Double.parseDouble(tbScanner.nextLine());
-		
-		k.depositAmount(amount);
-		
-		System.out.println("Du har tagit ut " + amount + " pengar på "
-			+ "ditt konto: \n" + Metoder.accountToString(k));
-		
 	}
 
 	/**        
@@ -219,18 +224,14 @@ public class Pgm2 {
 		
 		System.out.println("Välkommen att skapa en transaktion!");
 
-		System.out.print("Skriv i avsändarens kontonummer: ");
-		source = m.findAccount(tbScanner.nextLine());
 		
-		if(source == null) {
-			System.out.println("Det finns inget konto med det numret!");
-			return;
-		}
-			
-		System.out.print("Skriv i mottagarens kontonummer: ");
-		destination = m.findAccount(tbScanner.nextLine());
-		
-		if(destination == null) {
+		try {
+			System.out.print("Skriv i avsändarens kontonummer: ");
+			source = m.findAccount(tbScanner.nextLine());
+			System.out.print("Skriv i mottagarens kontonummer: ");
+			destination = m.findAccount(tbScanner.nextLine());
+				
+		} catch (NoSuchFieldException e) {
 			System.out.println("Det finns inget konto med det numret!");
 			return;
 		}

@@ -36,4 +36,8 @@ class GjordaTransaktioner extends Transaktion {
 	public Date getExecutionDate() { 
 		return executionDate; 
 	}
+	
+	public String toFileString(){
+		return "";
+	}
 }

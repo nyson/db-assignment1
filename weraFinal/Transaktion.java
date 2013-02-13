@@ -60,7 +60,7 @@ public class Transaktion {
 		setDueDate(d);	
 		setNotice(n);
 	}
-
+	
 	/**
 	 * Returns a Transaktion object as a String representation
 	 * @return A formatted string of the transaction
@@ -75,6 +75,11 @@ public class Transaktion {
 				+ getNotice() + "\n\n";
 	}
 	
+	/**
+	 * Formats a Transaktion for file output
+	 * 
+	 * @return
+	 */
 	public String toFileString(){
 		String out = dFormat.format(getDueDate()) + "#" + getSourceAccount() 
 			+ "#" + getDestinationAccount() + "#" + getAmount() + "#"
