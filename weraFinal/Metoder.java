@@ -215,7 +215,7 @@ public class Metoder {
 	/**
 	 * Translate a Konto to a formatted string
 	 * @param k Konto to format
-	 * @return If found returns a formatted string, else an empty string 
+	 * @return If found returns a formatted string, else a Konto object 
 	 */
 	public static String accountToString(Konto k) {
 		if(k == null)
@@ -373,7 +373,7 @@ public class Metoder {
 				accountWriter.write(a.getAccountNumber() + "##"
 						+ a.getAvailableAmount() + "##"
 						+ a.getAccountName() + "##"
-						+ a.getOwnerName());
+						+ a.getOwnerName() + "\n");
 
 		for(Transaktion t : transactions)
 			surveillanceWriter.write(t.toFileString() + "\n");
