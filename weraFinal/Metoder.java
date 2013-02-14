@@ -277,12 +277,11 @@ public class Metoder {
 			Konto source = findAccount(t.getSourceAccount());
 			Konto destination = findAccount(t.getDestinationAccount());
 
-			if(source != null)
-				source.withdraw(t.getAmount());
+			source.withdraw(t.getAmount());
+			destination.depositAmount(t.getAmount());
 
-			if(destination != null)
-				destination.depositAmount(t.getAmount());
 			log(t);	
+			
 		} catch (NoSuchFieldException e) {
 			System.out.println("Couldn't execute transaction");
 		}
