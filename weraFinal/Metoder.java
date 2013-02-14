@@ -38,7 +38,11 @@ public class Metoder {
 
 		readAccounts();
 		readTransactions();
-		readLog();
+		/**
+		 * Disabled as the log currently is buggy
+		 */
+		// readLog();
+		System.out.println("Logging disabled");
 	}
 
 	/**
@@ -322,10 +326,13 @@ public class Metoder {
 		return accounts[pos];
 	}
 
-	public void log(Transaktion t){		
-		transactionLog.add(new GjordaTransaktioner(new Date(), "OK;",
+	public void log(Transaktion t){	
+		System.out.println("Logging disabled");
+
+/*		transactionLog.add(new GjordaTransaktioner(new Date(), "OK;",
 				t.getDueDate(), t.getSourceAccount(),
 				t.getDestinationAccount(), t.getAmount(), ""));
+	*/
 	}
 
 
@@ -340,7 +347,9 @@ public class Metoder {
 	public void saveChanges() throws IOException{
 		File backup;
 		String[] files = {accountFile, transactionLogFile, surveillanceFile};
-		BufferedWriter accountWriter, logWriter, surveillanceWriter;
+		BufferedWriter accountWriter;
+		// BufferedWriter logWriter;
+		BufferedWriter surveillanceWriter;
 
 		for(String file: files) {
 			backup = new File(file + ".bak");
@@ -352,11 +361,12 @@ public class Metoder {
 
 
 		accountWriter
-		= new BufferedWriter(new FileWriter(accountFile));
-		logWriter
-		= new BufferedWriter(new FileWriter(transactionLogFile));
+			= new BufferedWriter(new FileWriter(accountFile));
+		/*logWriter
+			= new BufferedWriter(new FileWriter(transactionLogFile));
+			*/
 		surveillanceWriter
-		= new BufferedWriter(new FileWriter(surveillanceFile));
+			= new BufferedWriter(new FileWriter(surveillanceFile));
 
 		for(Konto a : accounts)
 			if(a == null)
@@ -370,12 +380,12 @@ public class Metoder {
 		for(Transaktion t : transactions)
 			surveillanceWriter.write(t.toFileString() + "\n");
 
-		for(GjordaTransaktioner l : transactionLog)
+		/* for(GjordaTransaktioner l : transactionLog)
 			logWriter.write(l.toFileString() + "\n");
-
+		 */
 		accountWriter.close();
 		surveillanceWriter.close();
-		logWriter.close();
+		//logWriter.close();
 	}
 
 	/**
