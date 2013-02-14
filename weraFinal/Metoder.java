@@ -125,7 +125,6 @@ public class Metoder {
 	/**
 	 * Read the surveillance and populate an ArrayList with the data
 	 * 
-	 * @return An ArrayList of the given data
 	 * @throws FileNotFoundException
 	 */
 	public void readTransactions() throws FileNotFoundException{
@@ -165,7 +164,6 @@ public class Metoder {
 	 * Reads an account file; sorts and parses the data to an Array.
 	 * 		Jumps over empty lines
 	 *  
-	 * @return accounts in the datafile 
 	 * @throws FileNotFoundException if the account file isn't found
 	 */
 	public void readAccounts() throws FileNotFoundException {
@@ -217,7 +215,7 @@ public class Metoder {
 	/**
 	 * Translate a Konto to a formatted string
 	 * @param k Konto to format
-	 * @return 
+	 * @return If found returns a formatted string, else an empty string 
 	 */
 	public static String accountToString(Konto k) {
 		if(k == null)

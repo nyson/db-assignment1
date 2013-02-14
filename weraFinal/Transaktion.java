@@ -45,11 +45,12 @@ public class Transaktion {
 	/**
 	 * Constructor with notice
 	 * 
-	 * @param Date 
-	 * @param String
-	 * @param String
-	 * @param double
-	 * @param om
+	 * @param d due date of the Transaktion
+	 * @param sa Source account of the Transaktion
+	 * @param da Destination account of the Transaktion
+	 * @param a Amount to transact
+	 * @param om OCR message of the Transaktion
+	 * @param n Notice of the Transaktion
 	 */
 	public Transaktion(Date d, String sa, String da, 
 			double a, String om, String n) {
@@ -78,7 +79,7 @@ public class Transaktion {
 	/**
 	 * Formats a Transaktion for file output
 	 * 
-	 * @return
+	 * @return A string representing a Transaktion object in log form
 	 */
 	public String toFileString(){
 		String out = dFormat.format(getDueDate()) + "#" + getSourceAccount() 
