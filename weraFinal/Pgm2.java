@@ -44,8 +44,11 @@ public class Pgm2 {
 		try {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
-			System.out.println("Kunde inte öppna angivna filer.");
-			return;
+        	System.out.println("Kunde inte hitta en eller flera av de angivna"
+        			+ " filerna, var god försök igen. \n" 
+        			+ "Working dir: " + new File("").getAbsolutePath() + "\n"
+        			+ e.getMessage());
+        	return;
 		}		
 
 		tbScanner = new Scanner(System.in);

@@ -33,7 +33,7 @@ public class Pgm1 {
         	System.out.println("Kunde inte hitta en eller flera av de angivna"
         			+ " filerna, var god försök igen. \n" 
         			+ "Working dir: " + new File("").getAbsolutePath() + "\n"
-        			+ e);
+        			+ e.getMessage());
         	return;
         }
         
