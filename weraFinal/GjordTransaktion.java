@@ -1,6 +1,6 @@
 import java.util.*;
 
-class GjordaTransaktioner extends Transaktion {
+class GjordTransaktion extends Transaktion {
 	public static enum TransactionType {TRANSACTION, WITHDRAWAL, DEPOSIT};
 	private Date executionDate;
 	private String transactionNotice;
@@ -13,12 +13,18 @@ class GjordaTransaktioner extends Transaktion {
 	 * @param dueDate
 	 * @param sourceAccount
 	 * @param destinationAccount
-	 * @param amount
+	 * @param amountew
 	 * @param ocrMessage
 	 */
-	public GjordaTransaktioner(TransactionType tType, Date exDate, 
-			String transNotice,	Date dueDate, String sourceAccount, 
-			String destinationAccount, double amount, String notice){
+	public GjordTransaktion(
+			TransactionType tType, 
+			Date exDate, 
+			String transNotice,	
+			Date dueDate, 
+			String sourceAccount, 
+			String destinationAccount, 
+			double amount, 
+			String notice){
 		
 		super(dueDate, sourceAccount, destinationAccount, 
 				amount, "", notice);
@@ -43,6 +49,15 @@ class GjordaTransaktioner extends Transaktion {
 	}
 	
 	public String toFileString(){
-		return "";
+		if(type == TransactionType.WITHDRAWAL) {
+			return "WITHDRAWAL: " + super.toFileString();
+		} else if (type == TransactionType.DEPOSIT) {
+			return "DEPOSIT: " + super.toFileString();
+		} else if (type == TransactionType.TRANSACTION) {
+			return "TRANSACTION: " + super.toFileString();
+		} else {
+			System.out.println("This shouldn't happen.");
+			return "";
+		}
 	}
 }
