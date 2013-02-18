@@ -138,9 +138,24 @@ public class Pgm2 {
 		double amount;
 		Konto k;
 		
-		System.out.println("Välkommen att skapa ett nytt konto!");
-		System.out.print("Skriv in kontonummer: ");
-		number = tbScanner.nextLine();
+		try {
+			while(true) {
+			System.out.println("Välkommen att skapa ett nytt konto!");
+			System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
+			val = tbScanner.nextInt();
+				if (val == 1) {
+					System.out.print("Skriv in kontonummer: ");
+					account = tbScanner.nextLine();
+				} else {
+					int x = Numb.nextInt(10000);
+					int y = Numb.nextInt(10000000);
+					account = x + "-" + y;
+				}
+				m.findAccount(account);
+			}
+		} catch (NoSuchFieldException e) {
+			System.out.println("Ditt kontonummer är " + account);
+		}
 
 		System.out.print("Skriv in kontonamn: ");
 		name = tbScanner.nextLine();
