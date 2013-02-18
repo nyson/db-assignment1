@@ -103,21 +103,42 @@ public class Pgm3{
         // System.out.println
         //	("listar gjordaTransaktioner efter antingen kontonr...");	
         //m.getLogsByAccountNumber(String account)
-        
-        // System.out.println
-        //	("...eller transaktionsdatum.");
-        System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
-        Date svar; 
-        while (true){
-        	try {
-        		svar = dFormat.parse(tbScanner.nextLine());
-        	}catch (ParseException | NumberFormatException e) {
-        		System.out.println("Använd formatet yyyyMMdd!");
-        		continue;
-        	}
-        	break; // om datum anropa
+        String datumEllerKonto ="konto";
+        		
+        if (datumEllerKonto == "konto"){
+        	// System.out.println
+        	//	("...eller transaktionsdatum.");
+		    System.out.print("Ange det konto vars transaktioner du vill visa: ");
+		    String svar; 
+		    while (true){
+		    	svar = tbScanner.nextLine();
+		    	if (m.accountExists(svar)){ // testa om giltigt konto
+		    	//if (true){ // *** DUMMY *** testa om giltigt konto
+			    	break; // avbryt loop
+		    	}
+		    	else{ // annars (inte ett konto
+		    		System.out.println("Inte ett giltigt konto!");
+		    		continue; // börja om loop
+		    	}
+		    }
+		    //System.out.println("Forsoker lista transaktioner tillhorande ett visst konto..");
+		    m.getLogsByAccountNumber(svar);        	
+    	}
+        else if (datumEllerKonto == "datum"){ // Försöker läsa in ett datum
+		    System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
+		    Date svar; 
+		    while (true){ // loopar tills ett datum ar inmatat
+		    	try {// testa om datum
+		    		svar = dFormat.parse(tbScanner.nextLine());  
+		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
+		    		System.out.println("Använd formatet yyyyMMdd!");
+		    		continue; //börja om loop
+		    	}
+		    	break; // annars avbryt loop;
+		    }
+		    // listar transaktioner under ett visst datum
+		    System.out.println("Forsoker lista transaktioner under ett visst datum..");
+		    m.getLogsAfter(svar);
         }
-        System.out.println("Forsoker lista transaktioner under ett visst datum..");
-        m.getLogsAfter(svar);
     }
 }
