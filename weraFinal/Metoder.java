@@ -18,7 +18,7 @@ public class Metoder {
 
 	public ArrayList<Transaktion> transactions;
 	public Konto[] accounts;
-	public ArrayList<GjordaTransaktioner> transactionLog;
+	public ArrayList<GjordTransaktion> transactionLog;
 	public ArrayList<String> log;
 
 	/**
@@ -54,7 +54,7 @@ public class Metoder {
 		Scanner logFile;
 		String[] log;
 		String temp;
-		transactionLog = new ArrayList<GjordaTransaktioner>();
+		transactionLog = new ArrayList<GjordTransaktion>();
 
 		logFile = new Scanner(new File(transactionLogFile));
 
@@ -78,7 +78,7 @@ public class Metoder {
 					// 6 - OCR message
 						+ "(;.+)?";
 				
-				/* TODO: fix and test withdrawal regexp  */
+				/* fix and test withdrawal regexp  */
 				// TransaktionsNotering;transaktionsDatum#önskatDatum;
 				// KONTANTER;belopp;ocrMeddelande
 				String withdrawal
@@ -97,7 +97,7 @@ public class Metoder {
 					// 6 - Deposit notice
 						+ "(;.+)?";
 
-				/** TODO: fix transaction regexp */
+				/** fix transaction regexp */
 				// TransaktionsNotering;transaktionsDatum#önskatDatum;
 				// källKontonummer;destinationsKonto;belopp;
 				// ocrMeddelande;betalningsNotering
@@ -123,15 +123,45 @@ public class Metoder {
 				
 				
 				// TransaktionsNotering;transaktionsDatum#önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg
-				if (temp.matches(deposit))
+				if (temp.matches(deposit)) {
+					String split[] = temp.split(";|#");
+					
+					transactionLog.add(new GjordTransaktion(
+						GjordTransaktion.TransactionType.DEPOSIT,
+						dFormat.parse(split[1]), 
+						"",
+						dFormat.parse(split[2]),
+						split[3],
+						split[4],
+						parseSweDouble(split[5]),
+						split[6]));
+					
+					
 					System.out.println(temp + " matches as a deposit!");
-				else if (temp.matches(withdrawal)) 
+				}
+				else if (temp.matches(withdrawal)) {
+					String split[] = temp.split(";|#");
+					
+					transactionLog.add(new GjordTransaktion(
+						GjordTransaktion.TransactionType.WITHDRAWAL,
+						dFormat.parse(split[1]), 
+						"",
+						dFormat.parse(split[2]),
+						split[3],
+						split[4],
+						parseSweDouble(split[5]),
+						split[6]));
+					
+					
 					System.out.println(temp + " matches as a withdrawal!");
-				else if (temp.matches(transaction))
+				} else if (temp.matches(transaction)) {
 					System.out.println(temp + " matches as a transaction!");
+				}
 
 			} catch (NumberFormatException e) {
 				break; // badly formatted date
+			} catch (ParseException e) {
+				System.out.println("Can't load row: " + e.getMessage());				
 			}
 		}
 
@@ -356,6 +386,22 @@ public class Metoder {
 	}
 
 	/**
+	 * Checks if an account exists
+	 * 
+	 * @param account account number to check if it exists
+	 * @return true if account exists, else false
+	 */
+	public boolean accountExists(String account) {
+		try {
+			findAccount(account);
+			return true;
+		} catch (NoSuchFieldException e) {
+			return false;
+		}
+		
+		
+	}
+	/**
 	 * Finds an account by binary search
 	 * 
 	 * @param account Account string to search for
@@ -528,13 +574,14 @@ public class Metoder {
 
 	/**
 	 * Fetches all logs after a certain date
+	 * 
 	 * @param d Date to search from
 	 * @return ArrayList of GjordaTransaktioner
 	 */
-	public ArrayList<GjordaTransaktioner> getLogsAfter (Date d){
-		ArrayList<GjordaTransaktioner> out 
-		= new ArrayList<GjordaTransaktioner>();
-		for(GjordaTransaktioner l : transactionLog) {
+	public ArrayList<GjordTransaktion> getLogsAfter (Date d){
+		ArrayList<GjordTransaktion> out 
+		= new ArrayList<GjordTransaktion>();
+		for(GjordTransaktion l : transactionLog) {
 			if(l.getDueDate().after(d))
 				out.add(l);
 		}
@@ -543,13 +590,14 @@ public class Metoder {
 
 	/**
 	 * Get logs by account number
+	 * 
 	 * @param account
 	 * @return arraylist of gjordatransaktioner
 	 */
-	public ArrayList<GjordaTransaktioner> getLogsByAccountNumber(String account){
-		ArrayList<GjordaTransaktioner> out 
-		= new ArrayList<GjordaTransaktioner>();
-		for(GjordaTransaktioner l : transactionLog) {
+	public ArrayList<GjordTransaktion> getLogsByAccountNumber (String account){
+		ArrayList<GjordTransaktion> out 
+		= new ArrayList<GjordTransaktion>();
+		for(GjordTransaktion l : transactionLog) {
 			if(l.getSourceAccount().equals(account)
 					|| l.getDestinationAccount().equals(account))
 				out.add(l);
