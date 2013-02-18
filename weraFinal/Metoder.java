@@ -62,11 +62,75 @@ public class Metoder {
 			temp = logFile.nextLine();
 			log = temp.split(";|#");
 			try {
-				transactionLog.add(new GjordaTransaktioner(
-						dFormat.parse(log[1]), log[0], dFormat.parse(log[2]), 
-						log[3], log[4], parseSweDouble(log[6]), ""));
+				String deposit
+					// 0 - Status
+						= "OK;"
+					// 1 - Transaction date
+						+ "[0-9]{8}#"
+					// 2 - Planned date
+						+ "[0-9]{8};"
+					// 3 - Identifier
+						+ "KONTANTER;"
+					// 4 - Destination account
+						+ "[0-9]+-[0-9]+;"
+					// 5 - Amount to deposit
+						+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
+					// 6 - OCR message
+						+ "(;.+)?";
+				
+				/* TODO: fix and test withdrawal regexp  */
+				// TransaktionsNotering;transaktionsDatum#önskatDatum;
+				// KONTANTER;belopp;ocrMeddelande
+				String withdrawal
+					// 0 - Status
+						= "OK;"
+					// 1 - Transaction date
+						+ "[0-9]{8}#"
+					// 2 - Planned date
+						+ "[0-9]{8};"
+					// 3 - Identifier
+						+ "KONTANTER;"
+					// 4 - Source account
+						+ "[0-9]+-[0-9]+;"
+					// 5 - Amount to deposit
+						+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
+					// 6 - Deposit notice
+						+ "(;.+)?";
 
-			} catch (ParseException | NumberFormatException e) {
+				/** TODO: fix transaction regexp */
+				// TransaktionsNotering;transaktionsDatum#önskatDatum;
+				// källKontonummer;destinationsKonto;belopp;
+				// ocrMeddelande;betalningsNotering
+				String transaction
+					// 0 - Status
+						= "OK;"
+					// 1 - Transaction date
+						+ "[0-9]{8}#"
+					// 2 - Planned date
+						+ "[0-9]{8};"
+					// 3 - Source account 
+						+ "[0-9]+-[0-9]+;"
+					// 4 - Destination account
+						+ "[0-9]+-[0-9]+;"
+					// 5 - Amount to transact
+						+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2});"
+					// 6 - OCR message
+						+ ".+"
+					// 7 - Transaction notice
+						+ "(;.+)";
+								
+					
+				
+				
+				// TransaktionsNotering;transaktionsDatum#önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg
+				if (temp.matches(deposit))
+					System.out.println(temp + " matches as a deposit!");
+				else if (temp.matches(withdrawal)) 
+					System.out.println(temp + " matches as a withdrawal!");
+				else if (temp.matches(transaction))
+					System.out.println(temp + " matches as a transaction!");
+
+			} catch (NumberFormatException e) {
 				break; // badly formatted date
 			}
 		}

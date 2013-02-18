@@ -203,7 +203,7 @@ public class Pgm2 {
 			
 			double amount = Double.parseDouble(tbScanner.nextLine());
 			
-			k.depositAmount(amount);
+			k.withdraw(amount);
 			
 			System.out.println("Du har tagit ut " + amount + " pengar på "
 				+ "ditt konto: \n" + Metoder.accountToString(k));
