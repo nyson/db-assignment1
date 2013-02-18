@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
@@ -92,11 +94,30 @@ public class Pgm3{
      *	Transaktionsdatum
      */
     private static void listaTransaktioner(){
-        // hämta array på alla genomförda transaktioner
-        	// (loggfil -> GjordTransaktion)
-        System.out.println
-        	("listar gjordaTransaktioner efter antingen kontonr...");	
-        System.out.println
-        	("...eller transaktionsdatum.");	
+        
+        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+    	
+   
+        //System.out.print("Vill du ?");
+        
+        // System.out.println
+        //	("listar gjordaTransaktioner efter antingen kontonr...");	
+        //m.getLogsByAccountNumber(String account)
+        
+        // System.out.println
+        //	("...eller transaktionsdatum.");
+        System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
+        Date svar; 
+        while (true){
+        	try {
+        		svar = dFormat.parse(tbScanner.nextLine());
+        	}catch (ParseException | NumberFormatException e) {
+        		System.out.println("Anv�nd formatet yyyyMMdd!");
+        		continue;
+        	}
+        	break; // om datum anropa
+        }
+        System.out.println("Forsoker lista transaktioner under ett visst datum..");
+        m.getLogsAfter(svar);
     }
 }

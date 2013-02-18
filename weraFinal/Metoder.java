@@ -284,7 +284,7 @@ public class Metoder {
 
 			log(t);	
 			
-		} catch (NoSuchFieldException e) {
+		} catch (Exception e) {
 			System.out.println("Couldn't execute transaction");
 		}
 
