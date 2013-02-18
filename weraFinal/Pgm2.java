@@ -139,25 +139,22 @@ public class Pgm2 {
 		int val = 0;
 		Konto k;
 		
-		try {
-			while(true) {
-			System.out.println("Välkommen att skapa ett nytt konto!");
-			System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
-			val = tbScanner.nextInt();
-				if (val == 1) {
-					System.out.print("Skriv in kontonummer: ");
-					account = tbScanner.nextLine();
-				} else {
-					int x = Numb.nextInt(10000);
-					int y = Numb.nextInt(10000000);
-					account = x + "-" + y;
-				}
-				m.findAccount(account);
+		do {
+		System.out.println("Välkommen att skapa ett nytt konto!");
+		System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
+		val = tbScanner.nextInt();
+			if (val == 1) {
+				System.out.print("Skriv in kontonummer: ");
+				account = tbScanner.nextLine();
+			} else {
+				int x = Numb.nextInt(10000);
+				int y = Numb.nextInt(10000000);
+				account = x + "-" + y;
 			}
-		} catch (NoSuchFieldException e) {
-			System.out.println("Ditt kontonummer är " + account);
-		}
-
+			if(m.accountExists(account))
+				System.out.println("Konto existerar! Välj ett nytt.");
+		} while(m.accountExists(account));
+		
 		System.out.print("Skriv in kontonamn: ");
 		name = tbScanner.nextLine();
 
