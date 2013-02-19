@@ -1,3 +1,22 @@
+/*Funktionalitet
+ * 1
+ * - Flytta (gallra) gamla obetalda räkningar (förföll för en vecka sedan men
+ *  som ej är betalda) till nytt filnamn
+ * (filen får inte finnas som man skriver in vilket filnamn man vill spara till).
+ * - När en gallring gjorts skall en utskrift till skärm göras där det anges antal gallrade poster (rader).
+ * 
+ * 2
+ * - Lista alla genomförda transaktioner. För detta ändamål skall klassen GjordTransaktion skapas och den
+ * skall ärva Transaktion. I klassen GjordTransaktion sparas transaktionsnoteringen och transaktionsdatum. I
+ * klassen Transaktion sparas önskat betaldatum samt betalningsnotering tillsammans med övriga variabler.
+ * - Listningen på genomförda tansaktioner skall kunna sökas fram baserat på:
+ * o Kontonummer
+ * o Transaktionsdatum 
+ */
+
+
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -8,24 +27,26 @@ public class Pgm3{
     private static Scanner tbScanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-        System.out.println("\n*** Wera's betalservice - Pgm3 ***");
-        System.out.println("*** Detta program listar transaktioner ***");
-
+        System.out.println("-= Pgm2, Konto- och transaktionshantering =-\n");
+        
 		try {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
-			System.out.println("Kunde inte Ã¶ppna angivna filer.");
-			return;
-		}        
-        
+			System.out.println("Kunde inte oppna angivna filer.");
+			return; // Avslutar programmet
+		}
+		
         String huvudMeny =
+        "========================================\n" +
+        "== Meny ================================\n" +
+        "========================================\n" +
         "1. Arkivera forfallna transaktioner\n" +
         "2. Lista alla utforda transaktioner\n" +
         "0. Avsluta\n" +
-        "Pgm3:>";
+        "Ange ditt val: ";
 
-        boolean avsluta = false; // Huvudmenyn Ã¤r igÃ¥ng sÃ¥lÃ¤nge 0
-        while(!avsluta) {
+        boolean avsluta = false; 
+        while(!avsluta) { // 
             System.out.print(huvudMeny);
             switch (tbScanner.nextLine()){
                 case "1": 
@@ -48,39 +69,38 @@ public class Pgm3{
         }
     }
 
-
     /** 
-     * Flytta (gallra) gamla obetalda rÃ¤kningar (fÃ¶rfÃ¶ll fÃ¶r en vecka sedan men
-     *  som ej Ã¤r betalda) till nytt filnamn (filen fÃ¥r inte finnas som man
-     *  skriver in vilket filnamn man vill spara till).
+	 * Flyttar (gallra) gamla obetalda räkningar (förföll för en vecka sedan men
+	 *  som ej är betalda) till nytt filnamn
+	 * (filen får inte finnas som man skriver in vilket filnamn man vill spara till).
+	 * - När en gallring gjorts skall en utskrift till skärm göras där det anges antal gallrade poster (rader).
      */
     private static void arkiveraGamlaTransaktioner(){
+   	 // Välj fil att arkivera till
     	File archive;
-    	System.out.println("VÃ¤lkommen till arkiveraren!");
     	System.out.print
-    		("VÃ¤nligen mata in ett nytt filnamn att arkivera till: ");
+    		("Mata in ett nytt filnamn att arkivera till: ");
     	archive = new File(tbScanner.nextLine());
-    	
     	while(archive.exists()){
     		System.out.print
     			("Filen existerar redan; var god mata in ett nytt filnamn: ");
     		archive = new File(tbScanner.nextLine());
-    	}
+    	}    	
+    	tbScanner.reset();
+    	System.out.println("Sparar till: " + archive);
     	
-    	tbScanner.reset();        
-        System.out.println("Sparar till: " + archive);
-
-        Calendar c = Calendar.getInstance();
+     // Hämtar datum en vecka tillbaka
+    	Calendar c = Calendar.getInstance();
         c.add(Calendar.WEEK_OF_YEAR, -1);
         
+     // Försöker arkivera till den nya filen 
         try {
+        	// TODO 
         	m.archiveTransactions(c.getTime(), archive); 
         } catch (IOException e) {
         	System.out.println("Kunde inte skriva till arkivfilen!");
-        }
-        
-    }
-
+        }        
+    }//slut på arkiveraGamlaTransaktioner
 
     /** 
      * Lista alla genomfÃ¶rda transaktioner. FÃ¶r detta Ã¤ndamÃ¥l skall klassen
@@ -98,7 +118,7 @@ public class Pgm3{
 
         // 
         System.out.print("Vill du lista transaktioner efter\n" +
-        				 "1. kontonummer  2. datum  (enter avbryter)\nPgm3-2:>");
+        				 "1. kontonummer  2. datum  (enter avbryter)\nAnge ditt val: ");
         String datumEllerKonto ="konto";
         switch (tbScanner.nextLine()){
         case "1" :
