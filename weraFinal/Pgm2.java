@@ -134,7 +134,7 @@ public class Pgm2 {
 	 * Lägger till Konto
 	 */
 	private static void skapaKonto() {
-		String number, name, owner;
+		String account, name, owner;
 		double amount;
 		int val = 0;
 		Konto k;
