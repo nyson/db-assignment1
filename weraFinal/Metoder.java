@@ -246,7 +246,6 @@ public class Metoder {
 			} catch (ParseException e) {
 				System.out.println("Not a valid date, ignoring: " 
 						+ e.getMessage());
-				continue;
 			}
 		}
 
@@ -391,7 +390,7 @@ public class Metoder {
 	 * @param account account number to check if it exists
 	 * @return true if account exists, else false
 	 */
-	public boolean accountExists(String account) {
+	public boolean accountExists(String account){
 		try {
 			findAccount(account);
 			return true;
