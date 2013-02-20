@@ -138,7 +138,7 @@ public class Pgm2 {
 		double amount;
 		int val = 0;
 		Konto k;
-		
+		Random Numb = new Random();
 		do {
 		System.out.println("Välkommen att skapa ett nytt konto!");
 		System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
