@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
@@ -92,11 +94,60 @@ public class Pgm3{
      *	Transaktionsdatum
      */
     private static void listaTransaktioner(){
-        // hÃ¤mta array pÃ¥ alla genomfÃ¶rda transaktioner
-        	// (loggfil -> GjordTransaktion)
-        System.out.println
-        	("listar gjordaTransaktioner efter antingen kontonr...");	
-        System.out.println
-        	("...eller transaktionsdatum.");	
+        
+
+        // 
+        System.out.print("Vill du lista transaktioner efter\n" +
+        				 "1. kontonummer  2. datum  (enter avbryter)\nPgm3-2:>");
+        String datumEllerKonto ="konto";
+        switch (tbScanner.nextLine()){
+        case "1" :
+        	datumEllerKonto = "konto";
+        	break;
+        case "2" :
+        	datumEllerKonto = "datum";
+        	break;
+        case "0" :
+        	return;
+        default :
+        	return;
+        }
+
+        if (datumEllerKonto == "konto"){ // 
+        	// System.out.println
+        	//	("...eller transaktionsdatum.");
+		    System.out.print("Ange det konto vars transaktioner du vill visa: ");
+		    String svar; 
+		    while (true){
+		    	svar = tbScanner.nextLine();
+		    	if (m.accountExists(svar)){ // testa om giltigt konto
+		    	//if (true){ // *** DUMMY *** testa om giltigt konto
+			    	break; // avbryt loop
+		    	}
+		    	else{ // annars (inte ett konto
+		    		System.out.print("Inte ett giltigt konto. Forsok igen: ");
+		    		continue; // börja om loop
+		    	}
+		    }
+		    //System.out.println("Forsoker lista transaktioner tillhorande ett visst konto..");
+		    m.getLogsByAccountNumber(svar);        	
+    	}
+        else if (datumEllerKonto == "datum"){ // Försöker läsa in ett datum
+		    System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
+	        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+		    Date svar; 
+		    while (true){ // loopar tills ett datum ar inmatat
+		    	try {// testa om datum
+		    		svar = dFormat.parse(tbScanner.nextLine());  
+		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
+		    		System.out.println("Använd formatet yyyyMMdd!");
+		    		continue; //börja om loop
+		    	}
+		    	break; // annars avbryt loop;
+		    }
+		    // listar transaktioner under ett visst datum
+		    System.out.println("Forsoker lista transaktioner under ett visst datum..");
+		    m.getLogsAfter(svar);
+        }
     }
 }
