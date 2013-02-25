@@ -1,10 +1,56 @@
 import java.util.*;
 
 class GjordTransaktion extends Transaktion {
-	public static enum TransactionType {TRANSACTION, WITHDRAWAL, DEPOSIT};
+	public static enum TransactionType {TRANSACTION, WITHDRAWAL, 
+			DEPOSIT, INVALID};
 	private Date executionDate;
 	private String transactionNotice;
 	private TransactionType type;
+	public static TransactionType analyzeTransactionType(String raw) {
+		/**	
+		 * Withdrawal split
+		 * 0: Status, 1: Transaction date, 2: Planned date,
+		 * 3: Identifier, 4: Source account
+		 * 5: Amount to deposit, 6: OCR
+		 */
+		if(raw.matches("OK;[0-9]{8}#[0-9]{8};KONTANTER;"
+				+ "[0-9]+-[0-9]+;([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
+				+ "(;.+)?")) {
+			return TransactionType.WITHDRAWAL;
+
+		/**
+		 * Deposit split
+		 * 0: Status, 1: Transaction date, 2: Planned date,
+		 * 3: Identifier, 4: Destination account
+		 * 5: Amount to deposit, 6: Ocr message
+		 */
+		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};KONTANTER;[0-9]+-[0-9]+;"
+				+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})(;.+)?")) {
+			return TransactionType.DEPOSIT;
+
+		/**
+		 * Transaction split
+		 * 0: Status, 1: Transaction date, 2: Planned date,
+		 * 3: Source account, 4: Destination account, 
+		 * 5: Amount to deposit, 6: OCR message
+		 * 7: Eventual transaction notice
+		 */
+		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};[0-9]+-[0-9]+;"
+				+ "[0-9]+-[0-9]+;([0-9]+|[0-9]+[,\\.][0-9]{1,2});"
+				+ ".+(;.+)")) {
+			return TransactionType.TRANSACTION;
+			
+		/**
+		 * Non-valid split
+		 */
+		} else {
+			
+			return TransactionType.INVALID;			
+		}
+		
+		
+	}
+	
 	
 	/**
 	 * with notice
@@ -23,17 +69,21 @@ class GjordTransaktion extends Transaktion {
 			Date dueDate, 
 			String sourceAccount, 
 			String destinationAccount, 
-			double amount, 
-			String notice){
+			double amount){
 		
 		super(dueDate, sourceAccount, destinationAccount, 
-				amount, "", notice);
+				amount, "", "");
 		
 		type = tType;
 		setExecutionDate(exDate);
 		setTransactionNotice(transNotice);
 	}	
 
+	
+
+	public void setType(TransactionType t) {
+		type = t;
+	}
 	public void setTransactionNotice(String tn) {
 		transactionNotice = tn;
 	}	
@@ -41,6 +91,9 @@ class GjordTransaktion extends Transaktion {
 		executionDate = ex;
 	}
 
+	public TransactionType getType() {
+		return type;
+	}
 	public String getTransactionNotice(){
 		return transactionNotice;
 	}	

@@ -134,7 +134,7 @@ public class Pgm2 {
 		int val = 0;
 		String account;
 		Konto k;
-		
+		Random Numb = new Random();
 		do {
 		System.out.println("Valkommen att skapa ett nytt konto!");
 		System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
@@ -147,6 +147,7 @@ public class Pgm2 {
 				int y = Numb.nextInt(10000000);
 				account = x + "-" + y;
 			}
+			
 			if(m.accountExists(account))
 				System.out.println("Konto existerar! Välj ett nytt.");
 		} while(m.accountExists(account));
