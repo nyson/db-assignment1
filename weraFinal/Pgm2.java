@@ -131,21 +131,19 @@ public class Pgm2 {
 	private static void skapaKonto() {
 		String number, name, owner;
 		double amount;
-		int val = 0;
+		String val;
 		String account;
 		Konto k;
 		Random Numb = new Random();
 		do {
-		System.out.println("Valkommen att skapa ett nytt konto!");
-		System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
-		val = tbScanner.nextInt();
-			if (val == 1) {
-				System.out.print("Skriv in kontonummer: ");
-				number = tbScanner.nextLine();
-			} else {
+		System.out.println("Ange kontonummer (enter = slumpmassigt) :");
+		val = tbScanner.nextLine();
+			if (val == "" || val == null) {
 				int x = Numb.nextInt(10000);
 				int y = Numb.nextInt(10000000);
 				number = x + "-" + y;
+			} else {
+				number = val;
 			}
 			
 			if(m.accountExists(number))
