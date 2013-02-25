@@ -121,7 +121,7 @@ public class Metoder {
 		int checksum = 0;
 		boolean alt = false;
 
-		for (int i = ocrNumber.length() - 1; i >= 0; i--){
+		try { for (int i = ocrNumber.length() - 1; i >= 0; i--){
 			int n = Integer.parseInt(ocrNumber.substring(i, i + 1));
 
 			if(alt) {
@@ -135,6 +135,9 @@ public class Metoder {
 		}
 
 		return (checksum % 10 == 0);
+		} catch (Exception e) {
+			return (Message)
+		}
 	}
 
 	/**
