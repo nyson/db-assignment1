@@ -271,12 +271,12 @@ public class Pgm2 {
 			return;
 		}
 		
-		System.out.print("Skriv i ett OCR: ");
+		System.out.print("Skriv i ett OCR eller ett medelande ");
 		ocr = tbScanner.nextLine();
 		
 		if(ocr.length() > 15 || ocr.length() <= 1 || !m.validOcr(ocr)) {
-			System.out.println("Ditt inmatade OCR var ogiltigt!");
-			return;
+			System.out.println("Din inmatning registreades som ett Medelande!);
+			
 		}
 		
 		System.out.println("Lägg till en notering eller lämna fältet blankt: ");
