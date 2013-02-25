@@ -72,40 +72,38 @@ public class Metoder {
 						dFormat.parse(log[1]), "", 
 						dFormat.parse(log[2]), "", "", 
 						parseSweDouble(log[5]));
-				
-				switch(type) {
-					case WITHDRAWAL:
-						trans.setType(GjordTransaktion
-								.TransactionType.WITHDRAWAL);
-						trans.setSourceAccount(log[4]);
-						if(log[6] != null)
-							trans.setNotice(log[6]);
-						
-						break;
-					case DEPOSIT:
-						trans.setType(GjordTransaktion.TransactionType.DEPOSIT);
-						trans.setDestinationAccount(log[4]);
-						if(log[6] != null)
-							trans.setNotice(log[6]);
-
-						
-						break;
-					case TRANSACTION:
-						if(log[7] != null)
-							trans.setNotice(log[6]);
-						
-						break;
-					
-					default:
-					case INVALID:
-						break;
-				}
-				
-				
 			} catch (NumberFormatException e) {
 				break; // badly formatted date
 			} catch (ParseException e) {
-				System.out.println("Can't load row: " + e.getMessage());				
+				System.out.println("Can't load row: " + e.getMessage());
+				break;
+			}				
+			switch(type) {
+				case WITHDRAWAL:
+					trans.setType(GjordTransaktion
+							.TransactionType.WITHDRAWAL);
+					trans.setSourceAccount(log[3]);
+					if(log[6] != null)
+						trans.setNotice(log[6]);
+					
+					break;
+				case DEPOSIT:
+					trans.setType(GjordTransaktion.TransactionType.DEPOSIT);
+					trans.setDestinationAccount(log[3]);
+					if(log[6] != null)
+						trans.setNotice(log[6]);
+
+					
+					break;
+				case TRANSACTION:
+					if(log[7] != null)
+						trans.setNotice(log[6]);
+					
+					break;
+				
+				default:
+				case INVALID:
+					break;
 			}
 		}
 

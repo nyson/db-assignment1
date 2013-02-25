@@ -95,8 +95,6 @@ public class Pgm3{
      */
     private static void listaTransaktioner(){
         
-
-        // 
         System.out.print("Vill du lista transaktioner efter\n" +
         				 "1. kontonummer  2. datum  (enter avbryter)\nPgm3-2:>");
         String datumEllerKonto ="konto";
@@ -126,13 +124,13 @@ public class Pgm3{
 		    	}
 		    	else{ // annars (inte ett konto
 		    		System.out.print("Inte ett giltigt konto. Forsok igen: ");
-		    		continue; // börja om loop
+		    		continue; // bï¿½rja om loop
 		    	}
 		    }
 		    //System.out.println("Forsoker lista transaktioner tillhorande ett visst konto..");
 		    m.getLogsByAccountNumber(svar);        	
     	}
-        else if (datumEllerKonto == "datum"){ // Försöker läsa in ett datum
+        else if (datumEllerKonto == "datum"){ // Fï¿½rsï¿½ker lï¿½sa in ett datum
 		    System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
 	        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
 		    Date svar; 
@@ -140,8 +138,8 @@ public class Pgm3{
 		    	try {// testa om datum
 		    		svar = dFormat.parse(tbScanner.nextLine());  
 		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
-		    		System.out.println("Använd formatet yyyyMMdd!");
-		    		continue; //börja om loop
+		    		System.out.println("Anvï¿½nd formatet yyyyMMdd!");
+		    		continue; //bï¿½rja om loop
 		    	}
 		    	break; // annars avbryt loop;
 		    }
