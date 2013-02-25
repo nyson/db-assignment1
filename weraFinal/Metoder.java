@@ -54,110 +54,54 @@ public class Metoder {
 		Scanner logFile;
 		String[] log;
 		String temp;
+		GjordTransaktion trans;
+		GjordTransaktion.TransactionType type;
+		
 		transactionLog = new ArrayList<GjordTransaktion>();
 
 		logFile = new Scanner(new File(transactionLogFile));
 
 		while(logFile.hasNextLine()) {
 			temp = logFile.nextLine();
+			type = GjordTransaktion.analyzeTransactionType(temp);			
 			log = temp.split(";|#");
+			
 			try {
-				String deposit
-					// 0 - Status
-						= "OK;"
-					// 1 - Transaction date
-						+ "[0-9]{8}#"
-					// 2 - Planned date
-						+ "[0-9]{8};"
-					// 3 - Identifier
-						+ "KONTANTER;"
-					// 4 - Destination account
-						+ "[0-9]+-[0-9]+;"
-					// 5 - Amount to deposit
-						+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
-					// 6 - OCR message
-						+ "(;.+)?";
+				trans = new GjordTransaktion(
+						GjordTransaktion.TransactionType.INVALID,
+						dFormat.parse(log[1]), "", 
+						dFormat.parse(log[2]), "", "", 
+						parseSweDouble(log[5]));
 				
-				/* fix and test withdrawal regexp  */
-				// TransaktionsNotering;transaktionsDatum#önskatDatum;
-				// KONTANTER;belopp;ocrMeddelande
-				String withdrawal
-					// 0 - Status
-						= "OK;"
-					// 1 - Transaction date
-						+ "[0-9]{8}#"
-					// 2 - Planned date
-						+ "[0-9]{8};"
-					// 3 - Identifier
-						+ "KONTANTER;"
-					// 4 - Source account
-						+ "[0-9]+-[0-9]+;"
-					// 5 - Amount to deposit
-						+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
-					// 6 - Deposit notice
-						+ "(;.+)?";
+				switch(type) {
+					case WITHDRAWAL:
+						trans.setType(GjordTransaktion
+								.TransactionType.WITHDRAWAL);
+						trans.setSourceAccount(log[4]);
+						if(log[6] != null)
+							trans.setNotice(log[6]);
+						
+						break;
+					case DEPOSIT:
+						trans.setType(GjordTransaktion.TransactionType.DEPOSIT);
+						trans.setDestinationAccount(log[4]);
+						if(log[6] != null)
+							trans.setNotice(log[6]);
 
-				/** fix transaction regexp */
-				// TransaktionsNotering;transaktionsDatum#önskatDatum;
-				// källKontonummer;destinationsKonto;belopp;
-				// ocrMeddelande;betalningsNotering
-				String transaction
-					// 0 - Status
-						= "OK;"
-					// 1 - Transaction date
-						+ "[0-9]{8}#"
-					// 2 - Planned date
-						+ "[0-9]{8};"
-					// 3 - Source account 
-						+ "[0-9]+-[0-9]+;"
-					// 4 - Destination account
-						+ "[0-9]+-[0-9]+;"
-					// 5 - Amount to transact
-						+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2});"
-					// 6 - OCR message
-						+ ".+"
-					// 7 - Transaction notice
-						+ "(;.+)";
-								
+						
+						break;
+					case TRANSACTION:
+						if(log[7] != null)
+							trans.setNotice(log[6]);
+						
+						break;
 					
+					default:
+					case INVALID:
+						break;
+				}
 				
 				
-				// TransaktionsNotering;transaktionsDatum#önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg
-				if (temp.matches(deposit)) {
-					String split[] = temp.split(";|#");
-					
-					transactionLog.add(new GjordTransaktion(
-						GjordTransaktion.TransactionType.DEPOSIT,
-						dFormat.parse(split[1]), 
-						"",
-						dFormat.parse(split[2]),
-						split[3],
-						split[4],
-						parseSweDouble(split[5]),
-						split[6]));
-					
-					
-					System.out.println(temp + " matches as a deposit!");
-				}
-				else if (temp.matches(withdrawal)) {
-					String split[] = temp.split(";|#");
-					
-					transactionLog.add(new GjordTransaktion(
-						GjordTransaktion.TransactionType.WITHDRAWAL,
-						dFormat.parse(split[1]), 
-						"",
-						dFormat.parse(split[2]),
-						split[3],
-						split[4],
-						parseSweDouble(split[5]),
-						split[6]));
-					
-					
-					System.out.println(temp + " matches as a withdrawal!");
-				} else if (temp.matches(transaction)) {
-					System.out.println(temp + " matches as a transaction!");
-				}
-
 			} catch (NumberFormatException e) {
 				break; // badly formatted date
 			} catch (ParseException e) {

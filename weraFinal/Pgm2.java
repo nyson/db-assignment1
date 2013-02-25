@@ -134,15 +134,15 @@ public class Pgm2 {
 	 * Lägger till Konto
 	 */
 	private static void skapaKonto() {
-		String number, name, owner;
+		String number, name, owner, account;
 		double amount;
 		int val = 0;
 		Konto k;
 		
 		do {
-		System.out.println("Välkommen att skapa ett nytt konto!");
-		System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
-		val = tbScanner.nextInt();
+			System.out.println("Välkommen att skapa ett nytt konto!");
+			System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
+			val = tbScanner.nextInt();
 			if (val == 1) {
 				System.out.print("Skriv in kontonummer: ");
 				account = tbScanner.nextLine();
@@ -151,6 +151,7 @@ public class Pgm2 {
 				int y = Numb.nextInt(10000000);
 				account = x + "-" + y;
 			}
+			
 			if(m.accountExists(account))
 				System.out.println("Konto existerar! Välj ett nytt.");
 		} while(m.accountExists(account));
