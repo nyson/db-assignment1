@@ -141,16 +141,16 @@ public class Pgm2 {
 		val = tbScanner.nextInt();
 			if (val == 1) {
 				System.out.print("Skriv in kontonummer: ");
-				account = tbScanner.nextLine();
+				number = tbScanner.nextLine();
 			} else {
 				int x = Numb.nextInt(10000);
 				int y = Numb.nextInt(10000000);
-				account = x + "-" + y;
+				number = x + "-" + y;
 			}
 			
-			if(m.accountExists(account))
+			if(m.accountExists(number))
 				System.out.println("Konto existerar! Välj ett nytt.");
-		} while(m.accountExists(account));
+		} while(m.accountExists(number));
 		
 		System.out.print("Skriv in kontonamn: ");
 		name = tbScanner.nextLine();
