@@ -27,7 +27,7 @@ public class Pgm3{
     private static Scanner tbScanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-        System.out.println("-= Pgm2, Konto- och transaktionshantering =-\n");
+        System.out.println("-= Pgm3, Hanterar gamla transaktioner =-\n");
         
 		try {
 			m = Metoder.buildMetoder();
