@@ -66,5 +66,6 @@ public class Kontoinfo {
 		} catch (Exception e) {
 		System.err.println("Caught Exception: " + e.getMessage());
 		}
-	}
+	br.close();
+  }
 }
