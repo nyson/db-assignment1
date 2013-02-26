@@ -99,7 +99,6 @@ public class Pgm3{
         
      // Försöker arkivera till den nya filen 
         try {
-        	// TODO 
         	int antalArkiveradeTransaktioner;
         	antalArkiveradeTransaktioner = m.archiveTransactions(c.getTime(), archive);
         	System.out.println("Arkiverade " + antalArkiveradeTransaktioner + " transaktioner");
