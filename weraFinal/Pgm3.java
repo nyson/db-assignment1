@@ -118,13 +118,15 @@ public class Pgm3{
      *	Transaktionsdatum
      */
     private static void listaTransaktioner(){
-        
+    	ArrayList<GjordTransaktion> logs 
+    		= new ArrayList<GjordTransaktion>();
         System.out.print("Vill du lista transaktioner efter\n" +
         				 "1. kontonummer  2. datum  (enter avbryter)\nAnge ditt val: ");
         String datumEllerKonto ="konto";
         switch (tbScanner.nextLine()){
         case "1" :
         	datumEllerKonto = "konto";
+        	
         	break;
         case "2" :
         	datumEllerKonto = "datum";
@@ -142,9 +144,10 @@ public class Pgm3{
 		    String svar; 
 		    while (true){
 		    	svar = tbScanner.nextLine();
-		    	if (m.accountExists(svar)){ // testa om giltigt konto
-		    	//if (true){ // *** DUMMY *** testa om giltigt konto
-			    	break; // avbryt loop
+		    	if (m.accountExists(svar)){
+		    		System.out.println
+		    			("Kontot hittades, söker i transaktionsloggen...");
+		    		break; // avbryt loop
 		    	}
 		    	else{ // annars (inte ett konto
 		    		System.out.print("Inte ett giltigt konto. Forsok igen: ");
@@ -152,7 +155,8 @@ public class Pgm3{
 		    	}
 		    }
 		    //System.out.println("Forsoker lista transaktioner tillhorande ett visst konto..");
-		    m.getLogsByAccountNumber(svar);        	
+		    logs = m.getLogsByAccountNumber(svar);
+		    
     	}
         else if (datumEllerKonto == "datum"){ // Försöker läsa in ett datum
 		    System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
@@ -169,7 +173,17 @@ public class Pgm3{
 		    }
 		    // listar transaktioner under ett visst datum
 		    System.out.println("Forsoker lista transaktioner under ett visst datum..");
-		    m.getLogsAfter(svar);
+		    logs = m.getLogsAfter(svar);
         }
+        
+        if(logs.isEmpty()) {
+        	System.out.println("Hittade inga rader!");
+        } else {
+        	for(GjordTransaktion log : logs) {
+        		System.out.println(log.toFileString());        		
+        	}       	
+        }
+        	
+        	
     }
 }

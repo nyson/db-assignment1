@@ -548,6 +548,9 @@ public class Metoder {
 		ArrayList<GjordTransaktion> out 
 		= new ArrayList<GjordTransaktion>();
 		for(GjordTransaktion l : transactionLog) {
+			System.out.println("Is " + account + " equal to (sa)" 
+					+ l.getSourceAccount() + " or (da)" 
+					+ l.getDestinationAccount() + "?");
 			if(l.getSourceAccount().equals(account)
 					|| l.getDestinationAccount().equals(account))
 				out.add(l);
