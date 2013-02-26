@@ -1,15 +1,15 @@
 /*Funktionalitet
  * 1
- * - Flytta (gallra) gamla obetalda räkningar (förföll för en vecka sedan men
- *  som ej är betalda) till nytt filnamn
- * (filen får inte finnas som man skriver in vilket filnamn man vill spara till).
- * - När en gallring gjorts skall en utskrift till skärm göras där det anges antal gallrade poster (rader).
+ * - Flytta (gallra) gamla obetalda rÃ¤kningar (fÃ¶rfÃ¶ll fÃ¶r en vecka sedan men
+ *  som ej Ã¤r betalda) till nytt filnamn
+ * (filen fÃ¥r inte finnas som man skriver in vilket filnamn man vill spara till).
+ * - NÃ¤r en gallring gjorts skall en utskrift till skÃ¤rm gÃ¶ras dÃ¤r det anges antal gallrade poster (rader).
  * 
  * 2
- * - Lista alla genomförda transaktioner. För detta ändamål skall klassen GjordTransaktion skapas och den
- * skall ärva Transaktion. I klassen GjordTransaktion sparas transaktionsnoteringen och transaktionsdatum. I
- * klassen Transaktion sparas önskat betaldatum samt betalningsnotering tillsammans med övriga variabler.
- * - Listningen på genomförda tansaktioner skall kunna sökas fram baserat på:
+ * - Lista alla genomfÃ¶rda transaktioner. FÃ¶r detta Ã¤ndamÃ¥l skall klassen GjordTransaktion skapas och den
+ * skall Ã¤rva Transaktion. I klassen GjordTransaktion sparas transaktionsnoteringen och transaktionsdatum. I
+ * klassen Transaktion sparas Ã¶nskat betaldatum samt betalningsnotering tillsammans med Ã¶vriga variabler.
+ * - Listningen pÃ¥ genomfÃ¶rda tansaktioner skall kunna sÃ¶kas fram baserat pÃ¥:
  * o Kontonummer
  * o Transaktionsdatum 
  */
@@ -32,10 +32,11 @@ public class Pgm3{
 		try {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
-			System.out.println("Kunde inte oppna angivna filer.");
-			return; // Avslutar programmet
-		}
-		
+			System.out.println("Kunde inte Ã¶ppna angivna filer: " 
+					+ e.getMessage());
+			return;
+		}        
+        
         String huvudMeny =
         "========================================\n" +
         "== Meny ================================\n" +
@@ -69,18 +70,21 @@ public class Pgm3{
         }
     }
 
+
     /** 
-	 * Flyttar (gallra) gamla obetalda räkningar (förföll för en vecka sedan men
-	 *  som ej är betalda) till nytt filnamn
-	 * (filen får inte finnas som man skriver in vilket filnamn man vill spara till).
-	 * - När en gallring gjorts skall en utskrift till skärm göras där det anges antal gallrade poster (rader).
+	 * Flyttar (gallra) gamla obetalda rÃ¤kningar (fÃ¶rfÃ¶ll fÃ¶r en vecka sedan men
+	 *  som ej Ã¤r betalda) till nytt filnamn
+	 * (filen fÃ¥r inte finnas som man skriver in vilket filnamn man vill spara till).
+	 * - NÃ¤r en gallring gjorts skall en utskrift till skÃ¤rm gÃ¶ras dÃ¤r det anges antal gallrade poster (rader).
      */
     private static void arkiveraGamlaTransaktioner(){
-   	 // Välj fil att arkivera till
+   	 // VÃ¤lj fil att arkivera till
     	File archive;
+
     	System.out.print
     		("Mata in ett nytt filnamn att arkivera till: ");
     	archive = new File(tbScanner.nextLine());
+    	
     	while(archive.exists()){
     		System.out.print
     			("Filen existerar redan; var god mata in ett nytt filnamn: ");
@@ -89,21 +93,21 @@ public class Pgm3{
     	tbScanner.reset();
     	System.out.println("Sparar till: " + archive);
     	
-     // Hämtar datum en vecka tillbaka
+     // HÃ¤mtar datum en vecka tillbaka
     	Calendar c = Calendar.getInstance();
         c.add(Calendar.WEEK_OF_YEAR, -1);
         
-     // Försöker arkivera till den nya filen 
+     // FÃ¶rsÃ¶ker arkivera till den nya filen 
         try {
         	// TODO 
         	m.archiveTransactions(c.getTime(), archive); 
         } catch (IOException e) {
         	System.out.println("Kunde inte skriva till arkivfilen!");
         }        
-    }//slut på arkiveraGamlaTransaktioner
+    }//slut pÃ¥ arkiveraGamlaTransaktioner
 
     /** 
-     * Lista alla genomfÃ¶rda transaktioner. FÃ¶r detta Ã¤ndamÃ¥l skall klassen
+     * Lista alla genomfÃ¶rda transaktioner. FÃ¤r detta Ã¤ndamÃ¥l skall klassen
      *  GjordTransaktion skapas och den skall Ã¤rva Transaktion. I klassen
      *  GjordTransaktion sparas transaktionsnoteringen och transaktionsdatum.
      *  I klassen Transaktion sparas Ã¶nskat betaldatum samt betalningsnotering
@@ -114,13 +118,15 @@ public class Pgm3{
      *	Transaktionsdatum
      */
     private static void listaTransaktioner(){
-        
+    	ArrayList<GjordTransaktion> logs 
+    		= new ArrayList<GjordTransaktion>();
         System.out.print("Vill du lista transaktioner efter\n" +
         				 "1. kontonummer  2. datum  (enter avbryter)\nAnge ditt val: ");
         String datumEllerKonto ="konto";
         switch (tbScanner.nextLine()){
         case "1" :
         	datumEllerKonto = "konto";
+        	
         	break;
         case "2" :
         	datumEllerKonto = "datum";
@@ -138,19 +144,21 @@ public class Pgm3{
 		    String svar; 
 		    while (true){
 		    	svar = tbScanner.nextLine();
-		    	if (m.accountExists(svar)){ // testa om giltigt konto
-		    	//if (true){ // *** DUMMY *** testa om giltigt konto
-			    	break; // avbryt loop
+		    	if (m.accountExists(svar)){
+		    		System.out.println
+		    			("Kontot hittades, sÃ¶ker i transaktionsloggen...");
+		    		break; // avbryt loop
 		    	}
 		    	else{ // annars (inte ett konto
 		    		System.out.print("Inte ett giltigt konto. Forsok igen: ");
-		    		continue; // bï¿½rja om loop
+		    		continue; // bÃ¶rja om loop
 		    	}
 		    }
 		    //System.out.println("Forsoker lista transaktioner tillhorande ett visst konto..");
-		    m.getLogsByAccountNumber(svar);        	
+		    logs = m.getLogsByAccountNumber(svar);
+		    
     	}
-        else if (datumEllerKonto == "datum"){ // Fï¿½rsï¿½ker lï¿½sa in ett datum
+        else if (datumEllerKonto == "datum"){ // FÃ¶rsÃ¶ker lÃ¤sa in ett datum
 		    System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
 	        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
 		    Date svar; 
@@ -158,14 +166,24 @@ public class Pgm3{
 		    	try {// testa om datum
 		    		svar = dFormat.parse(tbScanner.nextLine());  
 		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
-		    		System.out.println("Anvï¿½nd formatet yyyyMMdd!");
-		    		continue; //bï¿½rja om loop
+		    		System.out.println("AnvÃ¤nd formatet yyyyMMdd!");
+		    		continue; //bÃ¶rja om loop
 		    	}
 		    	break; // annars avbryt loop;
 		    }
 		    // listar transaktioner under ett visst datum
 		    System.out.println("Forsoker lista transaktioner under ett visst datum..");
-		    m.getLogsAfter(svar);
+		    logs = m.getLogsAfter(svar);
         }
+        
+        if(logs.isEmpty()) {
+        	System.out.println("Hittade inga rader!");
+        } else {
+        	for(GjordTransaktion log : logs) {
+        		System.out.println(log.toFileString());        		
+        	}       	
+        }
+        	
+        	
     }
 }
