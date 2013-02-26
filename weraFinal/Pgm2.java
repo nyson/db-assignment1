@@ -91,6 +91,11 @@ public class Pgm2 {
 				break;
 			}
 		}
+		try {
+			m.saveChanges();
+		} catch (IOException e) {
+			System.out.println("Kunde inte spara till fil!\n" + e.getMessage());
+		}
 		System.out.print("Avslutar. Tack och hej.");
 	}
 
@@ -163,6 +168,7 @@ public class Pgm2 {
 		amount = Double.parseDouble(tbScanner.nextLine());
 		
 		k = new Konto(number, amount, name, owner);
+
 		m.addAccount(k);
 		
 		System.out.println("Ditt nya konto ar:\n"

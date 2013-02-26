@@ -453,8 +453,9 @@ public class Metoder {
 	public void addAccount(Konto k){
 		int size;
 		for(size = 0; accounts[size] != null; size++);
-		accounts[size] = k;
+		accounts[size++] = k;
 
+		
 		// sorting the array
 		Konto temp;
 		boolean sorted = true;
