@@ -29,38 +29,33 @@ import java.util.*;
  */
 public class Pgm2 {
 
-	private static Scanner tbScanner;
+	private static Scanner tbScanner = new Scanner(System.in);
 	private static Metoder m;
 
 	/**
-	 *  Mainmetod med while-loop för Pgm2's val
+	 *  Mainmetod med while-loop for Pgm2's val
 	 */
 	public static void main(String[] args){
-		System.out.println("\n*** Wera's betalservice - Pgm2 ***"
-				+ "Detta program låter dig lista "
-				+ "konton och göra andra bankärenden!");
-
-
+        System.out.println("-= Pgm2, Konto- och transaktionshantering =-\n");
+        
 		try {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
         	System.out.println("Kunde inte hitta en eller flera av de angivna"
-        			+ " filerna, var god försök igen. \n" 
+        			+ " filerna, var god forsokk igen. \n" 
         			+ "Working dir: " + new File("").getAbsolutePath() + "\n"
         			+ e.getMessage());
         	return;
 		}		
 
-		tbScanner = new Scanner(System.in);
-
-		System.out.println("\n* Detta program gor foljande: *");
-
-
 		String huvudMeny =
+			"========================================\n" +
+		    "== Meny ================================\n" +
+		    "========================================\n" +
 			"1. Lista konto        4. Ta ut pengar\n" +
 			"2. Skapa nytt konto   5. Registrera ny transaktion\n" +
 			"3. Satt in pengar     0. Avsluta\n" +
-			"Gör ditt val: ";
+			"Gor ditt val: ";
 
 		boolean avsluta = false;
 		while(!avsluta) {
@@ -131,16 +126,17 @@ public class Pgm2 {
 	}
 
 	/**        
-	 * Lägger till Konto
+	 * Lagger till Konto
 	 */
 	private static void skapaKonto() {
 		String number, name, owner;
 		double amount;
 		int val = 0;
+		String account;
 		Konto k;
 		Random Numb = new Random();
 		do {
-		System.out.println("Välkommen att skapa ett nytt konto!");
+		System.out.println("Valkommen att skapa ett nytt konto!");
 		System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
 		val = tbScanner.nextInt();
 			if (val == 1) {
@@ -271,12 +267,12 @@ public class Pgm2 {
 			return;
 		}
 		
-		System.out.print("Skriv i ett OCR: ");
+		System.out.print("Skriv i ett OCR eller ett medelande ");
 		ocr = tbScanner.nextLine();
 		
 		if(ocr.length() > 15 || ocr.length() <= 1 || !m.validOcr(ocr)) {
-			System.out.println("Ditt inmatade OCR var ogiltigt!");
-			return;
+			System.out.println("Din inmatning registreades som ett Medelande!);
+			
 		}
 		
 		System.out.println("Lägg till en notering eller lämna fältet blankt: ");
