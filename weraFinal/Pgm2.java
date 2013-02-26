@@ -271,7 +271,7 @@ public class Pgm2 {
 		ocr = tbScanner.nextLine();
 		
 		if(ocr.length() > 15 || ocr.length() <= 1 || !m.validOcr(ocr)) {
-			System.out.println("Din inmatning registreades som ett Medelande!);
+			System.out.println("Din inmatning registreades som ett Meddelande!");
 			
 		}
 		

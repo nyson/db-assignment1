@@ -78,7 +78,7 @@ public class Metoder {
 					case WITHDRAWAL:
 						trans.setType(GjordTransaktion
 								.TransactionType.WITHDRAWAL);
-						trans.setSourceAccount(log[3]);
+						trans.setSourceAccount(log[4]);
 						if(log.length >= 7)
 							trans.setOcrMessage(log[6]);
 						
@@ -86,7 +86,7 @@ public class Metoder {
 						break;
 					case DEPOSIT:
 						trans.setType(GjordTransaktion.TransactionType.DEPOSIT);
-						trans.setDestinationAccount(log[4]);
+						trans.setDestinationAccount(log[3]);
 						if(log.length >= 7)
 							trans.setNotice(log[6]);
 	

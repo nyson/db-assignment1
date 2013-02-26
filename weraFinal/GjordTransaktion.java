@@ -86,25 +86,25 @@ class GjordTransaktion extends Transaktion {
 	public String toFileString(){
 		String ret = "";
 		switch(type){
-		case DEPOSIT:
+		case WITHDRAWAL:
 			ret += "OK;" + dFormat.format(executionDate) + "#"
 					+ dFormat.format(dueDate) + ";KONTANTER;" 
-					+ destinationAccount + ";" 
+					+ sourceAccount + ";" 
 					+ Double.toString(amount).replace(".", ",");
 			
 			if(ocrMessage != null)
-				ret += ocrMessage;
+				ret += ";" + ocrMessage;
 			
 			break;
 			
-		case WITHDRAWAL:
+		case DEPOSIT:
 			ret += "OK;" + dFormat.format(executionDate) + "#"
 					+ dFormat.format(dueDate) + ";" 
-					+ sourceAccount + ";KONTANTER;" 
+					+ destinationAccount + ";KONTANTER;" 
 					+ Double.toString(amount).replace(".", ",");
 			
 			if(ocrMessage != null)
-				ret += ocrMessage;
+				ret += ";" + ocrMessage;
 			
 			break;			
 			
@@ -115,7 +115,7 @@ class GjordTransaktion extends Transaktion {
 					+ Double.toString(amount).replace(".", ",");
 			
 			if(ocrMessage != null)
-				ret += ocrMessage;
+				ret += ";" + ocrMessage;
 			
 			break;			
 		
