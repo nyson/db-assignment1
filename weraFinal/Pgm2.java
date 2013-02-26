@@ -131,7 +131,6 @@ public class Pgm2 {
 	private static void skapaKonto() {
 		String number, name, owner;
 		double amount;
-<<<<<<< HEAD
 		String val;
 		String account;
 		Konto k;
@@ -144,30 +143,12 @@ public class Pgm2 {
 			if (val.length() > 0) { // om enter slumpa fram kontonr
 				number = val;
 				System.out.println("sparar " + number);
-=======
-		int val = 0;
-		Konto k;
-		Random Numb = new Random();
-
-		do {
-			System.out.println("Valkommen att skapa ett nytt konto!");
-			System.out.println("Skriv 1 om du skriva in ett eget konto nummer");
-			val = tbScanner.nextInt();
-
-			if (val == 1) {
-				System.out.print("Skriv in kontonummer: ");
-				number = tbScanner.nextLine();
->>>>>>> 11fa4912b2f0073bf1014080aca8ed5ccb0941ef
 			} else {
 				int x = Numb.nextInt(10000);
 				int y = Numb.nextInt(10000000);
 				number = x + "-" + y;
 				System.out.println("slumpar.. " + number);
 			}
-<<<<<<< HEAD
-=======
-				
->>>>>>> 11fa4912b2f0073bf1014080aca8ed5ccb0941ef
 			if(m.accountExists(number))
 				System.out.print("Konto existerar. ");
 		} while(m.accountExists(number));
@@ -288,11 +269,7 @@ public class Pgm2 {
 		ocr = tbScanner.nextLine();
 		
 		if(ocr.length() > 15 || ocr.length() <= 1 || !m.validOcr(ocr)) {
-<<<<<<< HEAD
 			System.out.println("Din inmatning registreades som ett Medelande!");
-=======
-			System.out.println("Din inmatning registreades som ett Meddelande!");
->>>>>>> 11fa4912b2f0073bf1014080aca8ed5ccb0941ef
 			
 		}
 		
