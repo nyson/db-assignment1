@@ -100,7 +100,9 @@ public class Pgm3{
      // Försöker arkivera till den nya filen 
         try {
         	// TODO 
-        	m.archiveTransactions(c.getTime(), archive); 
+        	int antalArkiveradeTransaktioner;
+        	antalArkiveradeTransaktioner = m.archiveTransactions(c.getTime(), archive);
+        	System.out.println("Arkiverade " + antalArkiveradeTransaktioner + " transaktioner");
         } catch (IOException e) {
         	System.out.println("Kunde inte skriva till arkivfilen!");
         }        

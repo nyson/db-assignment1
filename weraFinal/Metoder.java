@@ -296,7 +296,7 @@ public class Metoder {
 	 * @param archive file where to save the archive
 	 * @throws IOException
 	 */
-	public void archiveTransactions(Date olderThan, File archive) 
+	public int archiveTransactions(Date olderThan, File archive) 
 			throws IOException{
 
 		BufferedWriter archiveWriter 
@@ -312,6 +312,7 @@ public class Metoder {
 		}
 
 		archiveWriter.close();
+		return 0;
 	}
 
 	/**
