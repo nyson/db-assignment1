@@ -38,11 +38,12 @@ public class Metoder {
 
 		readAccounts();
 		readTransactions();
-		/**
-		 * Disabled as the log currently is buggy
-		 */
-		// readLog();
-		System.out.println("Logging disabled");
+		readLog();
+		
+		System.out.println("Logs read: ");
+		for(GjordTransaktion g : transactionLog) {
+			System.out.println(g.toFileString());
+		}
 	}
 
 	/**
@@ -69,42 +70,51 @@ public class Metoder {
 			try {
 				trans = new GjordTransaktion(
 						GjordTransaktion.TransactionType.INVALID,
-						dFormat.parse(log[1]), "", 
+						dFormat.parse(log[1]), log[0], 
 						dFormat.parse(log[2]), "", "", 
 						parseSweDouble(log[5]));
+			
+				switch(type) {
+					case WITHDRAWAL:
+						trans.setType(GjordTransaktion
+								.TransactionType.WITHDRAWAL);
+						trans.setSourceAccount(log[3]);
+						if(log.length >= 7)
+							trans.setOcrMessage(log[6]);
+						
+						
+						break;
+					case DEPOSIT:
+						trans.setType(GjordTransaktion.TransactionType.DEPOSIT);
+						trans.setDestinationAccount(log[4]);
+						if(log.length >= 7)
+							trans.setNotice(log[6]);
+	
+						
+						break;
+					case TRANSACTION:
+						trans.setType(GjordTransaktion.TransactionType.TRANSACTION);
+						trans.setSourceAccount(log[3]);
+						trans.setDestinationAccount(log[4]);
+						if(log.length >= 7)
+							trans.setOcrMessage(log[6]);
+						
+						break;
+					
+					default:
+					case INVALID:
+						break;
+				}
+				
+				transactionLog.add(trans);
+
 			} catch (NumberFormatException e) {
 				break; // badly formatted date
 			} catch (ParseException e) {
 				System.out.println("Can't load row: " + e.getMessage());
 				break;
 			}				
-			switch(type) {
-				case WITHDRAWAL:
-					trans.setType(GjordTransaktion
-							.TransactionType.WITHDRAWAL);
-					trans.setSourceAccount(log[3]);
-					if(log[6] != null)
-						trans.setNotice(log[6]);
-					
-					break;
-				case DEPOSIT:
-					trans.setType(GjordTransaktion.TransactionType.DEPOSIT);
-					trans.setDestinationAccount(log[3]);
-					if(log[6] != null)
-						trans.setNotice(log[6]);
 
-					
-					break;
-				case TRANSACTION:
-					if(log[7] != null)
-						trans.setNotice(log[6]);
-					
-					break;
-				
-				default:
-				case INVALID:
-					break;
-			}
 		}
 
 		logFile.close();
@@ -397,7 +407,7 @@ public class Metoder {
 		File backup;
 		String[] files = {accountFile, transactionLogFile, surveillanceFile};
 		BufferedWriter accountWriter;
-		// BufferedWriter logWriter;
+		BufferedWriter logWriter;
 		BufferedWriter surveillanceWriter;
 
 		for(String file: files) {
@@ -411,9 +421,8 @@ public class Metoder {
 
 		accountWriter
 			= new BufferedWriter(new FileWriter(accountFile));
-		/*logWriter
+		logWriter
 			= new BufferedWriter(new FileWriter(transactionLogFile));
-			*/
 		surveillanceWriter
 			= new BufferedWriter(new FileWriter(surveillanceFile));
 
@@ -429,12 +438,12 @@ public class Metoder {
 		for(Transaktion t : transactions)
 			surveillanceWriter.write(t.toFileString() + "\n");
 
-		/* for(GjordaTransaktioner l : transactionLog)
+		for(GjordTransaktion l : transactionLog)
 			logWriter.write(l.toFileString() + "\n");
-		 */
+		
 		accountWriter.close();
 		surveillanceWriter.close();
-		//logWriter.close();
+		logWriter.close();
 	}
 
 	/**

@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 class GjordTransaktion extends Transaktion {
@@ -6,6 +7,9 @@ class GjordTransaktion extends Transaktion {
 	private Date executionDate;
 	private String transactionNotice;
 	private TransactionType type;
+	private SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+
+	
 	public static TransactionType analyzeTransactionType(String raw) {
 		/**	
 		 * Withdrawal split
@@ -24,7 +28,7 @@ class GjordTransaktion extends Transaktion {
 		 * 3: Identifier, 4: Destination account
 		 * 5: Amount to deposit, 6: Ocr message
 		 */
-		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};KONTANTER;[0-9]+-[0-9]+;"
+		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};[0-9]+-[0-9]+;KONTANTER;"
 				+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})(;.+)?")) {
 			return TransactionType.DEPOSIT;
 
@@ -33,10 +37,9 @@ class GjordTransaktion extends Transaktion {
 		 * 0: Status, 1: Transaction date, 2: Planned date,
 		 * 3: Source account, 4: Destination account, 
 		 * 5: Amount to deposit, 6: OCR message
-		 * 7: Eventual transaction notice
 		 */
 		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};[0-9]+-[0-9]+;"
-				+ "[0-9]+-[0-9]+;([0-9]+|[0-9]+[,\\.][0-9]{1,2});"
+				+ "[0-9]+-[0-9]+;([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
 				+ ".+(;.+)")) {
 			return TransactionType.TRANSACTION;
 			
@@ -80,6 +83,52 @@ class GjordTransaktion extends Transaktion {
 	}	
 
 	
+	public String toFileString(){
+		String ret = "";
+		switch(type){
+		case DEPOSIT:
+			ret += "OK;" + dFormat.format(executionDate) + "#"
+					+ dFormat.format(dueDate) + ";KONTANTER;" 
+					+ destinationAccount + ";" 
+					+ Double.toString(amount).replace(".", ",");
+			
+			if(ocrMessage != null)
+				ret += ocrMessage;
+			
+			break;
+			
+		case WITHDRAWAL:
+			ret += "OK;" + dFormat.format(executionDate) + "#"
+					+ dFormat.format(dueDate) + ";" 
+					+ sourceAccount + ";KONTANTER;" 
+					+ Double.toString(amount).replace(".", ",");
+			
+			if(ocrMessage != null)
+				ret += ocrMessage;
+			
+			break;			
+			
+		case TRANSACTION:
+			ret += "OK;" + dFormat.format(executionDate) + "#"
+					+ dFormat.format(dueDate) + ";" + sourceAccount + ";" 
+					+ destinationAccount + ";" 
+					+ Double.toString(amount).replace(".", ",");
+			
+			if(ocrMessage != null)
+				ret += ocrMessage;
+			
+			break;			
+		
+		default:
+		case INVALID:
+			ret += "INVALID TRANSACTION FORMAT";
+		
+		}
+		
+		return ret;
+		 
+	}
+	
 
 	public void setType(TransactionType t) {
 		type = t;
@@ -101,16 +150,4 @@ class GjordTransaktion extends Transaktion {
 		return executionDate; 
 	}
 	
-	public String toFileString(){
-		if(type == TransactionType.WITHDRAWAL) {
-			return "WITHDRAWAL: " + super.toFileString();
-		} else if (type == TransactionType.DEPOSIT) {
-			return "DEPOSIT: " + super.toFileString();
-		} else if (type == TransactionType.TRANSACTION) {
-			return "TRANSACTION: " + super.toFileString();
-		} else {
-			System.out.println("This shouldn't happen.");
-			return "";
-		}
-	}
 }

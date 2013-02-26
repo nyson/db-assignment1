@@ -14,7 +14,8 @@ public class Pgm3{
 		try {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
-			System.out.println("Kunde inte öppna angivna filer.");
+			System.out.println("Kunde inte öppna angivna filer: " 
+					+ e.getMessage());
 			return;
 		}        
         
