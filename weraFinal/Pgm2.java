@@ -135,61 +135,61 @@ public class Pgm2 {
 		String account;
 		Konto k;
 		Random Numb = new Random();
-		do {
-		System.out.println("Ange kontonummer (enter = slumpmassigt) :");
+
+		do { // forsok tills ett nytt kontonr hittats
+		System.out.print("Ange kontonummer (enter = slumpmassigt) :");
+
 		val = tbScanner.nextLine();
-			if (val == "" || val == null) {
+			if (val.length() > 0) { // om enter slumpa fram kontonr
+				number = val;
+				System.out.println("sparar " + number);
+			} else {
 				int x = Numb.nextInt(10000);
 				int y = Numb.nextInt(10000000);
 				number = x + "-" + y;
-			} else {
-				number = val;
+				System.out.println("slumpar.. " + number);
 			}
-			
 			if(m.accountExists(number))
-				System.out.println("Konto existerar! Välj ett nytt.");
+				System.out.print("Konto existerar. ");
 		} while(m.accountExists(number));
 		
 		System.out.print("Skriv in kontonamn: ");
 		name = tbScanner.nextLine();
 
-		System.out.print("Skriv in ägarens namn: ");
+		System.out.print("Skriv in Agarens namn: ");
 		owner = tbScanner.nextLine();
 	
 		System.out.print("Skriv in saldo: ");
-		amount = tbScanner.nextDouble();
+		amount = Double.parseDouble(tbScanner.nextLine());
 		
 		k = new Konto(number, amount, name, owner);
 		m.addAccount(k);
 		
-		System.out.println("Ditt nya konto är inlagt!\n"
-			+ "Det här är ditt nya konto: "
+		System.out.println("Ditt nya konto ar:\n"
 			+ Metoder.accountToString(k));
 	}
 
 	/**        
-	 * Sätta in pengar på konto.
+	 * Satta in pengar pa konto.
 	 */
 	private static void sattInPengar() {
-		System.out.println("Välkommen till pengainsättningen!");
+		System.out.println("Valkommen till pengainsattningen!");
 		System.out.print("Skriv in kontonummer: ");
 		
 		try {
 			Konto k = m.findAccount(tbScanner.nextLine());
 			System.out.println("Konto: " + Metoder.accountToString(k));
 			System.out.print
-				("Vänligen skriv i hur mycket pengar ni vill sätta in: ");
+				("Vanligen skriv i hur mycket pengar ni vill satta in: ");
 			
 			double amount = tbScanner.nextDouble();
 			
 			k.depositAmount(amount);
 			
-			System.out.println("Du har nu satt in " + amount + " pengar på "
+			System.out.println("Du har nu satt in " + amount + " pengar pa "
 				+ "ditt konto: \n" + Metoder.accountToString(k));
-
 			
 		} catch (NoSuchFieldException e){
-			
 			System.out.println("Finns inget konto med det numret!");
 			return;
 		}
