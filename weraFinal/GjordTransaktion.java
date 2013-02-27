@@ -92,7 +92,7 @@ class GjordTransaktion extends Transaktion {
 					+ sourceAccount + ";" 
 					+ Double.toString(amount).replace(".", ",");
 			
-			if(ocrMessage != null)
+			if(ocrMessage != null && !ocrMessage.equals(""))
 				ret += ";" + ocrMessage;
 			
 			break;
@@ -103,7 +103,7 @@ class GjordTransaktion extends Transaktion {
 					+ destinationAccount + ";KONTANTER;" 
 					+ Double.toString(amount).replace(".", ",");
 			
-			if(ocrMessage != null)
+			if(ocrMessage != null && !ocrMessage.equals(""))
 				ret += ";" + ocrMessage;
 			
 			break;			
@@ -114,7 +114,7 @@ class GjordTransaktion extends Transaktion {
 					+ destinationAccount + ";" 
 					+ Double.toString(amount).replace(".", ",");
 			
-			if(ocrMessage != null)
+			if(ocrMessage != null && !ocrMessage.equals(""))
 				ret += ";" + ocrMessage;
 			
 			break;			

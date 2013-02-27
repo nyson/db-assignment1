@@ -39,11 +39,6 @@ public class Metoder {
 		readAccounts();
 		readTransactions();
 		readLog();
-		
-		System.out.println("Logs read: ");
-		for(GjordTransaktion g : transactionLog) {
-			System.out.println(g.toFileString());
-		}
 	}
 
 	/**
@@ -103,20 +98,24 @@ public class Metoder {
 					
 					default:
 					case INVALID:
+						System.out.println("I don't understand '" +temp+ "'");
 						break;
 				}
 				
 				transactionLog.add(trans);
 
 			} catch (NumberFormatException e) {
-				break; // badly formatted date
+				System.out.println("Badly formatted date at row: " + e.getMessage());
+				break;
+				
 			} catch (ParseException e) {
 				System.out.println("Can't load row: " + e.getMessage());
 				break;
-			}				
-
+				
+			}
 		}
-
+		
+		System.out.println("Read " + transactionLog.size() + " rows fromn log");
 		logFile.close();
 	}		
 
@@ -296,12 +295,15 @@ public class Metoder {
 	 * @param archive file where to save the archive
 	 * @throws IOException
 	 */
-	public void archiveTransactions(Date olderThan, File archive) 
+	public int archiveTransactions(Date olderThan, File archive) 
 			throws IOException{
 
+		int size = transactions.size(); 
+		
 		BufferedWriter archiveWriter 
 		= new BufferedWriter(new FileWriter(archive.toString()));
 
+		
 		for(Iterator<Transaktion> it = transactions.iterator(); it.hasNext();) {
 			Transaktion t = it.next();
 
@@ -312,6 +314,8 @@ public class Metoder {
 		}
 
 		archiveWriter.close();
+		
+		return size - transactions.size();
 	}
 
 	/**
@@ -411,6 +415,9 @@ public class Metoder {
 		BufferedWriter surveillanceWriter;
 
 		for(String file: files) {
+			if(file.equals(transactionLogFile))
+				break;
+			
 			backup = new File(file + ".bak");
 			if(backup.exists())
 				backup.delete();
@@ -438,8 +445,12 @@ public class Metoder {
 		for(Transaktion t : transactions)
 			surveillanceWriter.write(t.toFileString() + "\n");
 
-		for(GjordTransaktion l : transactionLog)
-			logWriter.write(l.toFileString() + "\n");
+		
+		System.out.println("log is " + transactionLog.size() + " lines long");
+		for(GjordTransaktion l : transactionLog) {
+			System.out.println(l.toFileString());
+			//	logWriter.write(l.toFileString() + "\n");
+		}
 		
 		accountWriter.close();
 		surveillanceWriter.close();
@@ -493,33 +504,41 @@ public class Metoder {
 		System.out.println("Var god och mata in dina filer, eller tryck bara "
 				+ "enter för att ange den förvalda inställningen.");
 
-		System.out.print("Kontofil ("+defaultAccountsFile+"): ");
+		System.out.println("Förinställda filer: "
+				+ "\n\tKontofil: \t" + defaultAccountsFile 
+				+ "\n\tLogfil: \t" + defaultLogFile 
+				+ "\n\tBevakningsfil: \t" + defaultSurveillanceFile);
+		
+		System.out.print("Kontofil: ");
 		temp = in.readLine();
-		if(temp.trim().length() > 0) 
+		if(temp.trim().length() > 0) { 
 			accounts = temp;
-		else {
-			System.out.println("Använder '"+defaultAccountsFile+"'");
+		} else {
 			accounts = defaultAccountsFile;
 		}
 
-		System.out.print("Logfil ("+defaultLogFile+"): ");
+		System.out.print("Logfil: ");
 		temp = in.readLine();
-		if(temp.trim().length() > 0)
+		if(temp.trim().length() > 0) {
 			log = temp;
-		else {
-			System.out.println("Använder '"+defaultLogFile+"'");
+		} else {
 			log = defaultLogFile;
 		}
 
-		System.out.print("Bevakningsfil ("+defaultSurveillanceFile+"): ");
+		System.out.print("Bevakningsfil: ");
 		temp = in.readLine();
 		if(temp.trim().length() > 0)
 			survey = temp;
 		else {
-			System.out.println("Använder '"+defaultSurveillanceFile+"'");
 			survey = defaultSurveillanceFile;
 		}
 
+		System.out.println("Använder (pwd: '"
+				+ new File(".").getAbsolutePath() +"'): "
+				+ "\n\tKontofil: \t" + accounts 
+				+ "\n\tLogfil: \t" + log
+				+ "\n\tBevakningsfil: \t" + survey);
+		
 		return new Metoder(accounts, log, survey);
 	} 
 

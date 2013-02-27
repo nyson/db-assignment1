@@ -79,8 +79,7 @@ public class Pgm2 {
 				
 			case "5": 
 				registreraTransaktion(); 
-				break;
-				
+
 			case "0": 
 				System.out.println("Avslutar programmet!");
 				avsluta = true; 
@@ -137,7 +136,6 @@ public class Pgm2 {
 		String number, name, owner;
 		double amount;
 		String val;
-		String account;
 		Konto k;
 		Random Numb = new Random();
 
