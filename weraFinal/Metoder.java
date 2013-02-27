@@ -39,11 +39,6 @@ public class Metoder {
 		readAccounts();
 		readTransactions();
 		readLog();
-		
-		System.out.println("Logs read: ");
-		for(GjordTransaktion g : transactionLog) {
-			System.out.println(g.toFileString());
-		}
 	}
 
 	/**
@@ -450,10 +445,7 @@ public class Metoder {
 		for(Transaktion t : transactions)
 			surveillanceWriter.write(t.toFileString() + "\n");
 
-		
-		System.out.println("log is " + transactionLog.size() + " lines long");
 		for(GjordTransaktion l : transactionLog) {
-			System.out.println(l.toFileString());
 			logWriter.write(l.toFileString() + "\n");
 		}
 		
