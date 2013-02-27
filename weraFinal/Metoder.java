@@ -115,7 +115,6 @@ public class Metoder {
 			}
 		}
 		
-		System.out.println("Read " + transactionLog.size() + " rows fromn log");
 		logFile.close();
 	}		
 
@@ -178,7 +177,6 @@ public class Metoder {
 		transactions  = new ArrayList<Transaktion>();
 
 		tFile = new Scanner(new File(surveillanceFile));
-		System.out.println("Loading surveillance...");
 
 		while(tFile.hasNextLine()) {
 			t = tFile.nextLine().split("#");
@@ -218,8 +216,6 @@ public class Metoder {
 		String accountLine;
 
 		kontofil = new Scanner(new File(accountFile));
-		System.out.println("Loading accounts from '"+accountFile+"'...");
-
 
 		int accountSize = 0;
 		for(int i = 0; kontofil.hasNextLine(); i++){
@@ -334,7 +330,8 @@ public class Metoder {
 			log(t);	
 			
 		} catch (Exception e) {
-			System.out.println("Couldn't execute transaction");
+			System.out.println("Couldn't execute transaction '"
+					+t.toFileString()+"'");
 		}
 
 
@@ -390,12 +387,7 @@ public class Metoder {
 	}
 
 	public void log(Transaktion t){	
-		System.out.println("Logging disabled");
-
-/*		transactionLog.add(new GjordaTransaktioner(new Date(), "OK;",
-				t.getDueDate(), t.getSourceAccount(),
-				t.getDestinationAccount(), t.getAmount(), ""));
-	*/
+		transactionLog.add(t.toLog());
 	}
 
 
@@ -565,9 +557,6 @@ public class Metoder {
 		ArrayList<GjordTransaktion> out 
 		= new ArrayList<GjordTransaktion>();
 		for(GjordTransaktion l : transactionLog) {
-			System.out.println("Is " + account + " equal to (sa)" 
-					+ l.getSourceAccount() + " or (da)" 
-					+ l.getDestinationAccount() + "?");
 			if(l.getSourceAccount().equals(account)
 					|| l.getDestinationAccount().equals(account))
 				out.add(l);

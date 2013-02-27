@@ -91,39 +91,40 @@ public class Transaktion {
 		
 		return out;
 	}
-	/*
-    private String logFormatDeposit(double wAmount) {
-	/*
-	  "TransaktionsNotering;transaktionsDatum#"
-	  + "önskatDatum;KONTANTER;destinationsKontonr;belopp;ocrMsg";
-
-	return getNotice() + ";" + getDueDate().toString() + "#"
-	    + new Date().toString() + ";" 
-	    + wAmount + ";" + getDestinationAccount() + ";"
-	    + getAmount() + ";" + getOcrMessage(); 
-    }
-
-    /**
-
-    private String logFormatWithdrawal(double amount) {
-	/*return "TransaktionsNotering;transaktionsDatum#"
-	    + "önskatDatum;KONTANTER;belopp;ocrMeddelande";
-
-    	return getNotice() + ";" + getDueDate().toString() + "#"
-    		+ new Date().toString() + ";" + amount + ";" 
-    		+ getDestinationAccount() + ";" + getAmount() + ";" 
-    		+ getOcrMessage();
-    	
-    }
-
-    /**
-
-    private String logFormatTransaction(Transaktion t) {
-	return "TransaktionsNotering;transaktionsDatum#önskatDatum;"
-	    +"källKontonummer;destinationsKonto;belopp;"
-	    +"ocrMeddelande;betalningsNotering";
-    } */
 	
+	/**
+	 * Creates a log object of the transaction
+	 * @return A log object of the current transaction
+	 */
+	public GjordTransaktion toLog() {
+		if(!sourceAccount.equals("") && !destinationAccount.equals("")) {
+			return new GjordTransaktion(
+					GjordTransaktion.TransactionType.TRANSACTION,
+					new Date(), "OK", dueDate,
+					sourceAccount, destinationAccount,
+					amount);		
+		} else if(!sourceAccount.equals("")){
+			return new GjordTransaktion(
+					GjordTransaktion.TransactionType.WITHDRAWAL,
+					new Date(), "OK", dueDate,
+					sourceAccount, destinationAccount,
+					amount);
+		} else if(!destinationAccount.equals("")) {
+			return new GjordTransaktion(
+					GjordTransaktion.TransactionType.DEPOSIT,
+					new Date(), "OK", dueDate,
+					sourceAccount, destinationAccount,
+					amount);
+		} else {
+			return new GjordTransaktion(
+					GjordTransaktion.TransactionType.INVALID,
+					new Date(), "OK", dueDate,
+					sourceAccount, destinationAccount,
+					amount);
+		}
+		
+	}
+
 	public static void traverseMonitoredAccounts() throws Exception {
 		throw new Exception("not implemented");
 	}
