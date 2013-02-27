@@ -99,8 +99,9 @@ public class Pgm3{
         
      // Försöker arkivera till den nya filen 
         try {
-        	// TODO 
-        	m.archiveTransactions(c.getTime(), archive); 
+        	int antalArkiveradeTransaktioner;
+        	antalArkiveradeTransaktioner = m.archiveTransactions(c.getTime(), archive);
+        	System.out.println("Arkiverade " + antalArkiveradeTransaktioner + " transaktioner");
         } catch (IOException e) {
         	System.out.println("Kunde inte skriva till arkivfilen!");
         }        
@@ -162,9 +163,15 @@ public class Pgm3{
 		    System.out.print("Ange det datum transaktionen(erna) genomforts: (yyyyMMdd)");
 	        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
 		    Date svar; 
+		    String temp;
+		    int datumFormat = 0;
 		    while (true){ // loopar tills ett datum ar inmatat
 		    	try {// testa om datum
-		    		svar = dFormat.parse(tbScanner.nextLine());  
+
+				temp = tbScanner.nextLine();
+				datumFormat = Ingeger.parseInt(temp)
+		    		svar = dFormat.parse(temp);
+
 		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
 		    		System.out.println("Använd formatet yyyyMMdd!");
 		    		continue; //börja om loop

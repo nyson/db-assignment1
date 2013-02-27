@@ -42,7 +42,7 @@ public class Pgm2 {
 			m = Metoder.buildMetoder();
 		} catch (IOException e) {
         	System.out.println("Kunde inte hitta en eller flera av de angivna"
-        			+ " filerna, var god forsokk igen. \n" 
+        			+ " filerna, var god forsök igen. \n" 
         			+ "Working dir: " + new File("").getAbsolutePath() + "\n"
         			+ e.getMessage());
         	return;
@@ -54,7 +54,7 @@ public class Pgm2 {
 		    "========================================\n" +
 			"1. Lista konto        4. Ta ut pengar\n" +
 			"2. Skapa nytt konto   5. Registrera ny transaktion\n" +
-			"3. Satt in pengar     0. Avsluta\n" +
+			"3. Sätt in pengar     0. Avsluta\n" +
 			"Gor ditt val: ";
 
 		boolean avsluta = false;
