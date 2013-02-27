@@ -164,13 +164,11 @@ public class Pgm3{
 	        SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
 		    Date svar; 
 		    String temp;
-		    int datumFormat = 0;
 		    while (true){ // loopar tills ett datum ar inmatat
 		    	try {// testa om datum
 
 				temp = tbScanner.nextLine();
-				datumFormat = Ingeger.parseInt(temp)
-		    		svar = dFormat.parse(temp);
+		    	svar = dFormat.parse(temp);
 
 		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
 		    		System.out.println("Använd formatet yyyyMMdd!");
