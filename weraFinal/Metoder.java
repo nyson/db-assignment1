@@ -126,6 +126,14 @@ public class Metoder {
 	 * @return true on valid OCR number 
 	 */
 	public boolean validOcr(String ocrNumber) {
+		
+		// Kollar först om det bara är siffror
+	        try {
+	            Double.parseDouble(ocrNumber);
+	        } catch (NumberFormatException e) {
+	            return false;
+	        }
+		
 		int checksum = 0;
 		boolean alt = false;
 
