@@ -18,7 +18,7 @@ class GjordTransaktion extends Transaktion {
 		 * 5: Amount to deposit, 6: OCR
 		 */
 		if(raw.matches("OK;[0-9]{8}#[0-9]{8};KONTANTER;"
-				+ "[0-9]+-[0-9]+;([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
+				+ "[0-9]+-[0-9]+;([0-9]+[,\\.][0-9]{1,2}|[0-9]+)"
 				+ "(;.+)?")) {
 			return TransactionType.WITHDRAWAL;
 
@@ -29,7 +29,7 @@ class GjordTransaktion extends Transaktion {
 		 * 5: Amount to deposit, 6: Ocr message
 		 */
 		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};[0-9]+-[0-9]+;KONTANTER;"
-				+ "([0-9]+|[0-9]+[,\\.][0-9]{1,2})(;.+)?")) {
+				+ "([0-9]+[,\\.][0-9]{1,2}|[0-9]+)(;.+)?")) {
 			return TransactionType.DEPOSIT;
 
 		/**
@@ -38,9 +38,10 @@ class GjordTransaktion extends Transaktion {
 		 * 3: Source account, 4: Destination account, 
 		 * 5: Amount to deposit, 6: OCR message
 		 */
-		} else if(raw.matches("OK;[0-9]{8}#[0-9]{8};[0-9]+-[0-9]+;"
-				+ "[0-9]+-[0-9]+;([0-9]+|[0-9]+[,\\.][0-9]{1,2})"
-				+ ".+(;.+)")) {
+		} else if(raw.matches("OK;"
+				+ "[0-9]{8}#[0-9]{8};[0-9]+-[0-9]+;"
+				+ "[0-9]+-[0-9]+;([0-9]+[,\\.][0-9]{1,2}|[0-9]+)"
+				+ "(;.+)?")) {
 			return TransactionType.TRANSACTION;
 			
 		/**
