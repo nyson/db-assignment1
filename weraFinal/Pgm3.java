@@ -169,7 +169,7 @@ public class Pgm3{
 		    	try {// testa om datum
 
 				temp = tbScanner.nextLine();
-				datumFormat = Ingeger.parseInt(temp)
+				datumFormat = Integer.parseInt(temp);
 		    		svar = dFormat.parse(temp);
 
 		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
