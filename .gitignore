@@ -2,6 +2,7 @@
 ## Egna onskemal
 #################
 *.class
+*.txt
 
 #################
 ## Eclipse
