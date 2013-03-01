@@ -78,7 +78,8 @@ public class Pgm2 {
 				break;
 				
 			case "5": 
-				registreraTransaktion(); 
+				registreraTransaktion();
+				break;
 
 			case "0": 
 				System.out.println("Avslutar programmet!");
@@ -261,20 +262,19 @@ public class Pgm2 {
 			return;
 		}
 
-		System.out.print("Skriv i mängd pengar att överföra: ");
+		System.out.print("Ange summa: ");
 		try {
-			amount = Double.parseDouble(tbScanner.nextLine());
+			amount = Double.parseDouble(tbScanner.nextLine().replace(",","."));
 		} catch(NumberFormatException e) {
 			System.out.println("Det där är inte ett giltigt tal.");
 			return;
 		}
 		
-		System.out.print("Skriv i ett OCR eller ett medelande ");
+		System.out.print("Skriv i ett OCR eller ett medelande :");
 		ocr = tbScanner.nextLine();
 		
-		if(ocr.length() > 15 || ocr.length() <= 1 || !m.validOcr(ocr)) {
-			System.out.println("Din inmatning registreades som ett Meddelande!");
-			
+		if(!m.validOcr(ocr)) {
+			System.out.println("Din inmatning registreades som ett meddelande.");
 		}
 		
 		System.out.println("Lägg till en notering eller lämna fältet blankt: ");

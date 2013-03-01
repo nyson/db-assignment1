@@ -133,6 +133,9 @@ public class Metoder {
 	        } catch (NumberFormatException e) {
 	            return false;
 	        }
+	    // Kollar om längden är mellan 2 och 15 tecken
+	        if (2 > ocrNumber.length() || ocrNumber.length() > 15)
+	        	return false;
 		
 		int checksum = 0;
 		boolean alt = false;
