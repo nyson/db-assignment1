@@ -122,7 +122,7 @@ public class Pgm3{
     	ArrayList<GjordTransaktion> logs 
     		= new ArrayList<GjordTransaktion>();
         System.out.print("Vill du lista transaktioner efter\n" +
-        				 "1. kontonummer  2. datum  (enter avbryter)\nAnge ditt val: ");
+        				 "1. kontonummer  2. datum\nAnge ditt val: ");
         String datumEllerKonto ="konto";
         switch (tbScanner.nextLine()){
         case "1" :
@@ -133,8 +133,10 @@ public class Pgm3{
         	datumEllerKonto = "datum";
         	break;
         case "0" :
+        	System.out.println("Avbryter.")
         	return;
         default :
+        	System.out.println("Fel inmatning. Avbryter.")
         	return;
         }
 
@@ -166,15 +168,8 @@ public class Pgm3{
 		    String temp;
 		    while (true){ // loopar tills ett datum ar inmatat
 		    	try {// testa om datum
-
-				temp = tbScanner.nextLine();
-<<<<<<< HEAD
-				datumFormat = Integer.parseInt(temp);
+		    		temp = tbScanner.nextLine();
 		    		svar = dFormat.parse(temp);
-=======
-		    	svar = dFormat.parse(temp);
->>>>>>> febd62b14003650de921ecfbea10fc7d2b79438a
-
 		    	}catch (ParseException | NumberFormatException e) { // om inte ett datum.. 
 		    		System.out.println("Använd formatet yyyyMMdd!");
 		    		continue; //börja om loop

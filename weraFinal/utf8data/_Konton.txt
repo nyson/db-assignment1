@@ -5,28 +5,28 @@
 1858-4545331##768.0##Lönekonto##Leon Lejon
 1859-4545344##32768.0##Sparkonto##Leon Lejon
 2020-2202##4.82333792E8##Transaktionskonto##Skattemyndigheten
-2496-3635721##253.12##Lönekonto##Anna Andersson
+2496-3635721##20431.12##Lönekonto##Anna Andersson
 2496-3635723##32100.0##Sparkonto##Anna Andersson
 2932-7343735##869332.1##Transaktionskonto##Hydro AB
 3531-5652435##38435.2##Lönekonto##Sparkonto
 3531-5653335##538435.2##Sparkonto##Sparkonto
 3743-1102204##7968.45##Lönekonto##Alan B. Carlsson
 4029-1248339##2.1E7##Bonusavsättning##Bostadsbolaget AB
-4029-2249339##232332.44##Transaktionskonto##Bostadsbolaget AB
-4898-5435483##4123.3##Lönekonto##Lennart P. Ettersson
-4898-5435484##0.0##Sparkonto##Lennart P. Ettersson
+4029-2249339##238132.44##Transaktionskonto##Bostadsbolaget AB
+4898-5435483##2123.3##Lönekonto##Lennart P. Ettersson
+4898-5435484##16378.0##Sparkonto##Lennart P. Ettersson
 4898-5435485##8856.0##Lönekonto##Lena Arvidsson
 4898-5435485##44816.0##Sparkonto##Lena Arvidsson
 4898-5435486##128856.0##ISK##Lena Arvidsson
 4898-5435558##423123.3##Sparkonto##Charles I. Jönsson
 5206-4401435##0.01##Lönekonto##Jonas Soft
-5548-6638##3.0654232E7##Transaktionskonto##Göteborgs universitet
+5548-6638##3.0613876E7##Transaktionskonto##Göteborgs universitet
 6331-5533249##8745.0##Lönekonto##Madeleine Andersson
 6332-5533249##28745.0##Sparkonto##Madeleine Andersson
 6831-5573549##3545.0##Sparkonto##Arne Karlsson
-808##1000.5##test##MAgnus
+808##975.5##test##MAgnus
 9120-1022345##23000.0##Sparkonto##Jonas Soft
 9550-6094019##10000.0##Pensionspar##Pelle Olsson
 9550-6094019##12954.0##Lönekonto##Pelle Olsson
 9550-6094019##375000.0##ISK##Pelle Olsson
-9999-9999##30900.0##Kassa##Weras betalservice
+9999-9999##30925.0##Kassa##Weras betalservice
