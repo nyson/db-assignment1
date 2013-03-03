@@ -133,10 +133,10 @@ public class Pgm3{
         	datumEllerKonto = "datum";
         	break;
         case "0" :
-        	System.out.println("Avbryter.")
+        	System.out.println("Avbryter.");
         	return;
         default :
-        	System.out.println("Fel inmatning. Avbryter.")
+        	System.out.println("Fel inmatning. Avbryter.");
         	return;
         }
 
