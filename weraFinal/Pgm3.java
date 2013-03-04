@@ -5,6 +5,8 @@
  * @author Jonathan Skårstedt
  * @author Oskar Pålsgård
  * @author Magnus Duberg
+ * 
+ * Version 1.0
  */
 
 import java.text.ParseException;

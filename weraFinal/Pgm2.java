@@ -1,40 +1,24 @@
-/*
- * @(#)Pgm2.java        1.0 2013-01-30
+/**
  *
-Lista konton/ betalningsmottagare samt tillgängligt saldo. 
-Om man anger ett konto nummer så ska information endast visas om det kontonumret.
-Om man inte anger ett konto nummer så skall information om alla kontonummer visas.
-Lägga till konto/betalningsmottagare
-När man lägger in ett nytt kontonummer så skall kontroll ske så att det inte redan finns ett konto med det numret. Valfritt är att lägga in en funktion som slumpar fram ett kontonummer.
-Ett kontonummer får inte bestå av fler än 12 tecken inklusive max/minst ett bindestreck.
-Sätta in pengar på konto.
-Ta ut pengar från konto.
-Lägga in överföringar och räkningar. Se klasserna Transaktion för information om vad som skall matas in för en räkning/överföring.
-En minnesantackning för en betalning/överföring får vara max 15 tecken.
-Det ska gå att välja att skicka antingen ett OCR-nummer eller ett meddelande till mottagaren av betalningen/överföringen.
-Ett meddelande/OCR-nummer får vara minst ett tecken och max 15 tecken. (Om endast siffror har angivits så antas det vara ett OCR-nummer annars antas det vara ett meddelande till betalningsmottagaren).
-Notera att OCR-numrets kontrollsiffra skall kontrolleras. I
- *
+ * Maintains accounts. Here we can list our accounts and any info connected to 
+ * them, make new accounts or create transactions.
+ * 
+ * @author Jonathan Skårstedt
+ * @author Oskar Pålsgård
+ * @author Magnus duberg
+ * 
+ * @version 1.0
  */
 
 import java.io.*;
 import java.text.*;
 import java.util.*;
 
-/**   
- * Pgm2 presenterar en meny for foljande tjanster:
- * Lista konton, satt in/ta ut pengar, skapa konto och registrera transaktioner.
- * @version      1.0 30 Jan 2013
- * @author       xxx, xxx, xxx
- */
 public class Pgm2 {
 
 	private static Scanner tbScanner = new Scanner(System.in);
 	private static Metoder m;
 
-	/**
-	 *  Mainmetod med while-loop for Pgm2's val
-	 */
 	public static void main(String[] args){
         System.out.println("-= Pgm2, Konto- och transaktionshantering =-\n");
         
@@ -54,7 +38,7 @@ public class Pgm2 {
 		    "========================================\n" +
 			"1. Lista konto        4. Ta ut pengar\n" +
 			"2. Skapa nytt konto   5. Registrera ny transaktion\n" +
-			"3. S�tt in pengar     0. Avsluta\n" +
+			"3. Sätt in pengar     0. Avsluta\n" +
 			"Gor ditt val: ";
 
 		boolean avsluta = false;
@@ -100,14 +84,15 @@ public class Pgm2 {
 	}
 
 	/**        
-	 * visar information om ett konto
+	 * Shows information of a given account or, if no account is given, all
+	 * accounts.
 	 */
 	private static void listaKonton() {
 		System.out.print
 			("Ange kontonummer eller enter for att se alla konton: ");
 		String accountNumber = tbScanner.nextLine();
 		
-		if (accountNumber.trim().length() > 0) {  // om ett konto skall visas?
+		if (accountNumber.trim().length() > 0) {
 			try {
 				Konto k = m.findAccount(accountNumber);
 
@@ -131,7 +116,7 @@ public class Pgm2 {
 	}
 
 	/**        
-	 * Lagger till Konto
+	 * Add new account to our bank. 
 	 */
 	private static void skapaKonto() {
 		String number, name, owner;
@@ -140,13 +125,15 @@ public class Pgm2 {
 		Konto k;
 		Random Numb = new Random();
 
-		do { // forsok tills ett nytt kontonr hittats
-		System.out.print("Ange kontonummer (enter = slumpmassigt) :");
+		do {
+		System.out.print
+			("Ange kontonummer eller en tom rad för slumpat kontonummer :");
 
 		val = tbScanner.nextLine();
-			if (val.length() > 0) { // om enter slumpa fram kontonr
+			if (val.length() > 0) {
 				number = val;
 				System.out.println("sparar " + number);
+				
 			} else {
 				int x = Numb.nextInt(10000);
 				int y = Numb.nextInt(10000000);
@@ -175,7 +162,7 @@ public class Pgm2 {
 	}
 
 	/**        
-	 * Satta in pengar pa konto.
+	 * Deposits money into an account.
 	 */
 	private static void sattInPengar() {
 		System.out.println("Valkommen till pengainsattningen!");
@@ -202,7 +189,7 @@ public class Pgm2 {
 	}
 
 	/**        
-	 * Ta ut pengar från konto.
+	 * Withdraws money into an account.
 	 */
 	private static void taUtPengar() {
 		System.out.println("Välkommen till pengauttagningen!");
@@ -228,7 +215,7 @@ public class Pgm2 {
 	}
 
 	/**        
-	 * Lägga in överföringar och räkningar.
+	 * Registers transaction. 
 	 */
 	private static void registreraTransaktion() {
 		SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
@@ -291,10 +278,5 @@ public class Pgm2 {
 		m.addTransaction(t);
 		System.out.println("Transaktion tillagd!\n" + t);
 		
-		// Se klasserna Transaktion för information om vad som skall matas in för en räkning/överföring.
-		// En minnesantackning för en betalning/överföring får vara max 15 tecken.
-		// Det ska gå att välja att skicka antingen ett OCR-nummer eller ett meddelande till mottagaren av betalningen/överföringen.
-		// Ett meddelande/OCR-nummer får vara minst ett tecken och max 15 tecken. (Om endast siffror har angivits så antas det vara ett OCR-nummer annars antas det vara ett meddelande till betalningsmottagaren).
-		// Notera att OCR-numrets kontrollsiffra skall kontrolleras.
 	}
 }
